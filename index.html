@@ -83,6 +83,33 @@
     font-size: 13px;
     text-shadow: 1px 1px 0 #fff;
   }
+  .step-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .step-dot {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid #1a0033;
+    background: #fff7fb;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #1a0033;
+    transition: transform 0.15s;
+  }
+  .step-dot:hover { transform: translateY(-2px); }
+  .step-dot:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #1a0033; }
+  .step-dot.active {
+    background: linear-gradient(180deg, #ffe08a, #ffb703);
+    outline: 2px solid #ff0080;
+  }
 
   /* ============ APP / SCREENS ============ */
   #app {
@@ -455,6 +482,7 @@
 <div class="progress-wrap">
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   <div class="progress-label" id="progressLabel">Schritt 1</div>
+  <div class="step-nav" id="step-nav"></div>
 </div>
 
 <div id="app">
@@ -543,13 +571,13 @@
     <div class="card">
       <h1 class="title">🏠 UND NACHTS? 🛏️</h1>
       <p class="body-text">Kommen wir nun zu den Nächten...</p>
+      <div class="gif-box"><div class="gif-imgs" data-gif-pool="sleeping"></div></div>
       <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-info" id="btn-stay-reveal">Ich ahne schlimmes... wo denkst du zu nächtigen? 😶</button>
       </div>
       <div class="reveal-text hidden" id="stay-text">
         Keine Angst 👻 Wahrscheinlich bei <strong>Steffi</strong>. und auch bei ihr tagsüber arbeiten. Aber: wenn wir spontan an einzelnen Tagen Bock haben, dann natürlich auch gerne bei dir.
       </div>
-      <div class="gif-box"><div class="gif-imgs" data-gif-pool="sleeping"></div></div>
       <div class="btn-row hidden" id="stay-next-row">
         <button class="btn-primary" id="btn-stay-next">Klingt gut. Und was sind das für dubiose Events in Kölle?</button>
       </div>
@@ -1222,6 +1250,27 @@
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressLabel').textContent = `Schritt ${idx + 1} von ${path.length}`;
     document.getElementById('btn-global-back').style.display = idx > 0 ? 'inline-flex' : 'none';
+    renderStepNav(path, idx);
+  }
+
+  // Klickbare Schritt-Punkte — erlaubt freies Springen zu jedem Schritt,
+  // nicht nur vor/zurück.
+  function renderStepNav(path, curIdx) {
+    const nav = document.getElementById('step-nav');
+    nav.innerHTML = '';
+    path.forEach((id, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'step-dot' + (i === curIdx ? ' active' : '');
+      dot.textContent = String(i + 1);
+      dot.title = 'Zu Schritt ' + (i + 1) + ' springen';
+      dot.addEventListener('click', () => {
+        if (id === document.querySelector('.screen.active').id) return;
+        resetScreenUI(id);
+        showScreen(id);
+      });
+      nav.appendChild(dot);
+    });
   }
 
   function goNext() {
