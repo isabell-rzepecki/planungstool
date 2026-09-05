@@ -164,6 +164,9 @@
     flex-wrap: wrap;
     margin-top: 24px;
   }
+  .pop-anim {
+    animation: popIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+  }
   button {
     font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
     font-weight: 700;
@@ -399,7 +402,7 @@
       <h1 class="title">Ich hab da einen Plan... 👀🎉</h1>
       <p class="body-text">Willst du wissen, was ich vorhabe? <span class="blink">🌟 NEU 🌟</span></p>
       <div class="gif-box"><div class="gif-imgs" data-gif-pool="curious"></div><div class="gif-caption">*neugierig guckt*</div></div>
-      <div class="btn-row">
+      <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-no" id="btn-intro-no" data-variant="A">Nein 🙅</button>
         <button class="btn-primary" id="btn-intro-yes">Ja, will ich wissen! 😍</button>
       </div>
@@ -412,7 +415,7 @@
     <div class="card">
       <h1 class="title">📍 Save the Date 🗓️</h1>
       <p class="body-text">Ich bin vom <strong>16.–25.10.</strong> in Bonn.</p>
-      <div class="btn-row">
+      <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-info" id="btn-trip-why">Warum? Was machst du da? 🤔</button>
       </div>
       <div class="reveal-text hidden" id="trip-why-text">
@@ -437,7 +440,7 @@
     <div class="card">
       <h1 class="title">🏠 Übernachtungsfrage 🛏️</h1>
       <p class="body-text">Ok, klingt gut, aber wo planst du, 10 Tage zu übernachten?</p>
-      <div class="btn-row">
+      <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-info" id="btn-stay-reveal">Valid Question! Click to reveal</button>
       </div>
       <div class="reveal-text hidden" id="stay-text">
@@ -460,7 +463,7 @@
         Ich hab schon <strong>2 Tickets</strong> organisiert 🎫🎫
       </p>
       <p class="body-text">Willst du mitkommen?</p>
-      <div class="btn-row" id="concert1-question">
+      <div class="btn-row hidden" id="concert1-question" data-reveal-after-type="screen">
         <button class="btn-yes" id="btn-c1-yes">Ja, klar! 🤘😍</button>
         <button class="btn-no" id="btn-c1-no" data-variant="B">Nein</button>
       </div>
@@ -476,7 +479,7 @@
     <div class="card">
       <h1 class="title">🎂 Am 24.10. hast du Geburtstag! 🎉</h1>
       <div class="gif-box"><div class="gif-imgs" data-gif-pool="birthday"></div></div>
-      <div class="btn-row" style="align-items:center;">
+      <div class="btn-row hidden" style="align-items:center;" data-reveal-after-type="screen">
         <img class="inline-gif" data-gif-tag="grumpy" alt="Grumpy Cat">
         <button class="btn-ghost" id="btn-bday-grumpy">Don't remind me... Ich hasse diesen Tag.</button>
       </div>
@@ -491,7 +494,7 @@
         I know. Zufällig spielt da aber noch eine Band in Köln, die ich gern sehen möchte. Also dachte ich, vlt willst du mitkommen und dich statt auf deinen Geburtstag einfach auf die Show freuen? Das Ticket wäre dann mein kleines Geburtstagsgeschenk for u.
       </p>
       <div class="gif-box"><div class="gif-imgs" data-gif-pool="smirk"></div></div>
-      <div class="btn-row" id="bday-invite-question">
+      <div class="btn-row hidden" id="bday-invite-question" data-reveal-after-type="screen">
         <button class="btn-no" id="btn-bday-invite-no" data-variant="D">Nein, kein Bock 🙅</button>
         <button class="btn-primary" id="btn-bday-reveal-next">ja villaisch... Aber wer spielt denn überhaupt?</button>
       </div>
@@ -510,7 +513,7 @@
         Da jetzt schon das Geschenk selbst keine Überraschung mehr ist, sollte eigentlich wenigstens das ein Geheimnis bleiben... Aber wenn du willst, kann ich dir das Genre verraten. Wo ich mir jedoch sicher bin: you gonna like it! very mucho!
       </p>
       <div class="gif-box"><div class="gif-imgs" data-gif-pool="mysterious"></div></div>
-      <div class="btn-row" id="surprise-question">
+      <div class="btn-row hidden" id="surprise-question" data-reveal-after-type="screen">
         <button class="btn-info" id="btn-sur-spill">Spucks aus! 🗣️</button>
         <button class="btn-ghost" id="btn-sur-keep">Ich lass mich überraschen 🤫</button>
       </div>
@@ -539,7 +542,7 @@
         <p id="genre-summary-note" style="text-align:center; font-weight:700; font-size:14px;"></p>
       </div>
       <div class="gif-box" id="summary-gif-box"><div class="gif-imgs" id="summary-imgs"></div><div class="gif-caption" id="summary-caption"></div></div>
-      <div class="btn-row">
+      <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-primary" id="btn-restart">Nochmal von vorne 🔄</button>
       </div>
     </div>
@@ -1015,12 +1018,20 @@
 
   function typeScreenTexts(screenEl) {
     const targets = screenEl.querySelectorAll('h1.title, p.body-text');
-    typeSequential(Array.from(targets));
+    return typeSequential(Array.from(targets));
   }
 
   function revealTyped(el, speed) {
     el.classList.remove('hidden');
-    typeNode(el, speed);
+    return typeNode(el, speed);
+  }
+
+  function revealButtons(el) {
+    if (!el) return;
+    el.classList.remove('hidden');
+    el.classList.remove('pop-anim');
+    void el.offsetWidth;
+    el.classList.add('pop-anim');
   }
 
   /* ======================================================
@@ -1046,9 +1057,11 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById(id);
     el.classList.add('active');
-    el.querySelectorAll('button[data-variant]').forEach(attachFlee);
     loadGifsInScreen(el);
-    typeScreenTexts(el);
+    typeScreenTexts(el).then(() => {
+      el.querySelectorAll('[data-reveal-after-type="screen"]').forEach(revealButtons);
+      el.querySelectorAll('button[data-variant]').forEach(attachFlee);
+    });
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1073,30 +1086,33 @@
   /* ---------- Screen: Intro ---------- */
   document.getElementById('btn-intro-yes').addEventListener('click', goNext);
   document.getElementById('btn-intro-no').addEventListener('click', () => {
-    revealTyped(document.getElementById('intro-caught-text'));
-    setTimeout(goNext, 1400);
+    revealTyped(document.getElementById('intro-caught-text')).then(() => {
+      setTimeout(goNext, 500);
+    });
   });
 
   /* ---------- Screen: Trip ---------- */
   document.getElementById('btn-trip-why').addEventListener('click', () => {
-    revealTyped(document.getElementById('trip-why-text'));
-    renderGifPool(document.getElementById('trip-why-gif-imgs'), 'why');
-    document.getElementById('trip-why-gif').classList.remove('hidden');
-    document.getElementById('trip-bonus-row').classList.remove('hidden');
-    document.getElementById('trip-next-row').classList.remove('hidden');
     document.getElementById('btn-trip-why').disabled = true;
+    revealTyped(document.getElementById('trip-why-text')).then(() => {
+      renderGifPool(document.getElementById('trip-why-gif-imgs'), 'why');
+      document.getElementById('trip-why-gif').classList.remove('hidden');
+      revealButtons(document.getElementById('trip-bonus-row'));
+      revealButtons(document.getElementById('trip-next-row'));
+    });
   });
   document.getElementById('btn-trip-bonus').addEventListener('click', () => {
-    revealTyped(document.getElementById('trip-bonus-text'));
     document.getElementById('btn-trip-bonus').disabled = true;
+    revealTyped(document.getElementById('trip-bonus-text'));
   });
   document.getElementById('btn-trip-next').addEventListener('click', goNext);
 
   /* ---------- Screen: Stay ---------- */
   document.getElementById('btn-stay-reveal').addEventListener('click', () => {
-    revealTyped(document.getElementById('stay-text'));
-    document.getElementById('stay-next-row').classList.remove('hidden');
     document.getElementById('btn-stay-reveal').disabled = true;
+    revealTyped(document.getElementById('stay-text')).then(() => {
+      revealButtons(document.getElementById('stay-next-row'));
+    });
   });
   document.getElementById('btn-stay-next').addEventListener('click', goNext);
 
@@ -1150,14 +1166,16 @@
   document.getElementById('btn-sur-spill').addEventListener('click', () => {
     state.genreRevealed = true;
     document.getElementById('surprise-question').classList.add('hidden');
-    revealTyped(document.getElementById('genre-text'));
-    document.getElementById('surprise-next-row').classList.remove('hidden');
+    revealTyped(document.getElementById('genre-text')).then(() => {
+      revealButtons(document.getElementById('surprise-next-row'));
+    });
   });
   document.getElementById('btn-sur-keep').addEventListener('click', () => {
     state.genreRevealed = false;
     document.getElementById('surprise-question').classList.add('hidden');
-    revealTyped(document.getElementById('keep-surprise-text'));
-    document.getElementById('surprise-next-row').classList.remove('hidden');
+    revealTyped(document.getElementById('keep-surprise-text')).then(() => {
+      revealButtons(document.getElementById('surprise-next-row'));
+    });
   });
   document.getElementById('btn-sur-next').addEventListener('click', goNext);
 
@@ -1211,13 +1229,10 @@
     state.concert1 = null;
     state.surpriseAccepted = null;
     state.genreRevealed = null;
-    document.getElementById('concert1-question').classList.remove('hidden');
     document.getElementById('concert1-result-gif').classList.add('hidden');
     document.getElementById('concert1-next-row').classList.add('hidden');
-    document.getElementById('bday-invite-question').classList.remove('hidden');
     document.getElementById('bday-decline-gif').classList.add('hidden');
     document.getElementById('bday-decline-next-row').classList.add('hidden');
-    document.getElementById('surprise-question').classList.remove('hidden');
     document.getElementById('surprise-next-row').classList.add('hidden');
     document.getElementById('genre-text').classList.add('hidden');
     document.getElementById('keep-surprise-text').classList.add('hidden');
@@ -1233,6 +1248,7 @@
     document.getElementById('stay-next-row').classList.add('hidden');
     document.getElementById('btn-stay-reveal').disabled = false;
     document.querySelectorAll('[data-typed]').forEach(el => delete el.dataset.typed);
+    document.querySelectorAll('[data-reveal-after-type="screen"]').forEach(el => el.classList.add('hidden'));
     showScreen('screen-intro');
   });
 
