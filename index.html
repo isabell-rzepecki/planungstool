@@ -390,6 +390,7 @@
 <div class="marquee-bar"><span>✨🐱 WILLKOMMEN AUF DIESER VÖLLIG SERIÖSEN WEBSITE 🐱✨ &nbsp;&nbsp;&nbsp; 💾 BEST VIEWED WITH VIBES 💾 &nbsp;&nbsp;&nbsp; 🌟 SCROLL DICH DURCH DEN GEHEIMPLAN 🌟 &nbsp;&nbsp;&nbsp; 🐾 ACHTUNG: KATZEN-GIFS INBOUND 🐾 &nbsp;&nbsp;&nbsp;</span></div>
 
 <div class="progress-wrap">
+  <button class="btn-ghost" id="btn-global-back" style="display:none; margin-bottom:8px;">⬅️ Zurück</button>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   <div class="progress-label" id="progressLabel">Schritt 1</div>
 </div>
@@ -1072,6 +1073,7 @@
     const pct = ((idx + 1) / path.length) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressLabel').textContent = `Schritt ${idx + 1} von ${path.length}`;
+    document.getElementById('btn-global-back').style.display = idx > 0 ? 'inline-flex' : 'none';
   }
 
   function goNext() {
@@ -1079,9 +1081,42 @@
     const curId = document.querySelector('.screen.active').id;
     const idx = path.indexOf(curId);
     if (idx < path.length - 1) {
-      showScreen(path[idx + 1]);
+      const nextId = path[idx + 1];
+      resetScreenUI(nextId);
+      showScreen(nextId);
     }
   }
+
+  // Setzt eine Ja/Nein-Frage wieder auf ihren unbeantworteten Zustand zurück,
+  // damit man sie nach "Zurück" (und erneutem Vorwärtsgehen) neu beantworten kann.
+  function resetScreenUI(id) {
+    if (id === 'screen-concert1') {
+      document.getElementById('concert1-question').classList.remove('hidden');
+      document.getElementById('concert1-result-gif').classList.add('hidden');
+      document.getElementById('concert1-next-row').classList.add('hidden');
+    } else if (id === 'screen-bday-reveal') {
+      document.getElementById('bday-invite-question').classList.remove('hidden');
+      document.getElementById('bday-decline-gif').classList.add('hidden');
+      document.getElementById('bday-decline-next-row').classList.add('hidden');
+    } else if (id === 'screen-surprise') {
+      document.getElementById('surprise-question').classList.remove('hidden');
+      document.getElementById('genre-text').classList.add('hidden');
+      document.getElementById('keep-surprise-text').classList.add('hidden');
+      document.getElementById('surprise-next-row').classList.add('hidden');
+    }
+  }
+
+  function goBack() {
+    const path = currentPath();
+    const curId = document.querySelector('.screen.active').id;
+    const idx = path.indexOf(curId);
+    if (idx > 0) {
+      const prevId = path[idx - 1];
+      resetScreenUI(prevId);
+      showScreen(prevId);
+    }
+  }
+  document.getElementById('btn-global-back').addEventListener('click', goBack);
 
   /* ---------- Screen: Intro ---------- */
   document.getElementById('btn-intro-yes').addEventListener('click', goNext);
