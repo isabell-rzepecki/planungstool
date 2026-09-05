@@ -430,10 +430,17 @@
       <div class="btn-row hidden" id="trip-bonus-row">
         <button class="btn-ghost" id="btn-trip-bonus">ähhh... Welches.. Netzwerk? 👀</button>
       </div>
-      <div class="reveal-text hidden" id="trip-bonus-text">
+    </div>
+  </div>
+
+  <!-- SCREEN 1b: NETZWERK -->
+  <div class="screen" id="screen-trip-network">
+    <div class="card">
+      <h1 class="title">🕸️ Gute Frage... 👀</h1>
+      <p class="body-text">
         Kennst du die Dreiecksspinne Hyptiotes? Die baut ihr Netz aus gerade mal drei Fäden, hält den einen Faden gespannt und lauert dann einfach…
-      </div>
-      <div class="btn-row hidden" id="trip-bonus2-row">
+      </p>
+      <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-ghost" id="btn-trip-bonus2">Verstehe…</button>
       </div>
       <div class="reveal-text hidden" id="trip-bonus2-text">
@@ -1061,7 +1068,7 @@
     genreRevealed: null     // true/false
   };
 
-  const baseOrder = ['screen-intro', 'screen-trip', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal'];
+  const baseOrder = ['screen-intro', 'screen-trip', 'screen-trip-network', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal'];
 
   function currentPath() {
     if (state.surpriseAccepted === false) {
@@ -1149,18 +1156,16 @@
       renderGifPool(document.getElementById('trip-why-gif-imgs'), 'why');
       document.getElementById('trip-why-gif').classList.remove('hidden');
       revealButtons(document.getElementById('trip-bonus-row'));
-      revealButtons(document.getElementById('trip-next-row'));
     });
   });
-  document.getElementById('btn-trip-bonus').addEventListener('click', () => {
-    document.getElementById('btn-trip-bonus').disabled = true;
-    revealTyped(document.getElementById('trip-bonus-text')).then(() => {
-      revealButtons(document.getElementById('trip-bonus2-row'));
-    });
-  });
+  document.getElementById('btn-trip-bonus').addEventListener('click', goNext);
+
+  /* ---------- Screen: Trip Netzwerk ---------- */
   document.getElementById('btn-trip-bonus2').addEventListener('click', () => {
     document.getElementById('btn-trip-bonus2').disabled = true;
-    revealTyped(document.getElementById('trip-bonus2-text'));
+    revealTyped(document.getElementById('trip-bonus2-text')).then(() => {
+      revealButtons(document.getElementById('trip-next-row'));
+    });
   });
   document.getElementById('btn-trip-next').addEventListener('click', goNext);
 
@@ -1296,10 +1301,8 @@
     document.getElementById('intro-caught-text').classList.add('hidden');
     document.getElementById('trip-why-text').classList.add('hidden');
     document.getElementById('trip-why-gif').classList.add('hidden');
-    document.getElementById('trip-bonus-text').classList.add('hidden');
     document.getElementById('trip-bonus-row').classList.add('hidden');
     document.getElementById('trip-bonus2-text').classList.add('hidden');
-    document.getElementById('trip-bonus2-row').classList.add('hidden');
     document.getElementById('trip-next-row').classList.add('hidden');
     document.getElementById('btn-trip-why').disabled = false;
     document.getElementById('btn-trip-bonus').disabled = false;
