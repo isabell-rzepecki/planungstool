@@ -588,7 +588,8 @@
   <div class="screen" id="screen-concert1">
     <div class="card">
       <h1 class="title">🤘 GUT, DASS DU FRAGST 🎸</h1>
-      <p class="body-text">
+      <p class="body-text">Ein Konzert natürlich!</p>
+      <p class="body-text hidden" id="concert1-details-block" data-no-type="true">
         Freitag, 16.10.<br>
         <strong>The Devil Wears Prada</strong><br>
         Support: <strong>156/Silence</strong> &amp; <strong>Oversize</strong>
@@ -1189,6 +1190,10 @@
 
   async function typeSequential(elements, speed) {
     for (const el of elements) {
+      if (el.dataset.noType === 'true') {
+        el.classList.remove('hidden');
+        continue;
+      }
       await typeNode(el, speed);
     }
   }
@@ -1470,6 +1475,7 @@
     state.genreRevealed = null;
     document.getElementById('concert1-result-gif').classList.add('hidden');
     document.getElementById('concert1-next-row').classList.add('hidden');
+    document.getElementById('concert1-details-block').classList.add('hidden');
     document.getElementById('bday-decline-gif').classList.add('hidden');
     document.getElementById('bday-decline-next-row').classList.add('hidden');
     document.getElementById('surprise-next-row').classList.add('hidden');
