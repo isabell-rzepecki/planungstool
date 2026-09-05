@@ -363,7 +363,7 @@
     <div class="card">
       <h1 class="title">Ich hab da einen Plan... 👀🎉</h1>
       <p class="body-text">Willst du wissen, was ich vorhabe? <span class="blink">🌟 NEU 🌟</span></p>
-      <div class="gif-box"><img data-gif-tag="cute curious cat" alt="neugierige Katze"><div class="gif-caption">*neugierig guckt*</div></div>
+      <div class="gif-box"><img data-gif-tag="curious" alt="neugierige Katze"><div class="gif-caption">*neugierig guckt*</div></div>
       <div class="btn-row">
         <button class="btn-no" id="btn-intro-no" data-variant="A">Nein 🙅</button>
         <button class="btn-primary" id="btn-intro-yes">Ja, will ich wissen! 😍</button>
@@ -389,7 +389,7 @@
       <div class="reveal-text hidden" id="trip-bonus-text">
         Okay, "Netzwerk" ist vielleicht leicht gehypt – "zufällige Bekanntschaften" klingt auf LinkedIn halt einfach schlechter 😏 Konkret: Steffi und Thomas, die ich auf meiner Marokko-Reise kennengelernt habe. Außerdem schau ich vielleicht auch bei Stefan Hörmann und dem Global Nature Fund im Büro vorbei – vielleicht erinnerst du dich, ich hab da letztes Jahr ein Jobangebot ausgeschlagen, bin aber nach wie vor gut mit ihm, und er meinte, ich soll vorbeikommen, wenn ich mal in Bonn bin 😄 Und dann gibt's da noch so einen Typen, der auf dem Gelände der LVR-Klinik wohnt... 👀
       </div>
-      <div class="gif-box"><img data-gif-tag="cat working laptop" alt="Katze am Laptop"></div>
+      <div class="gif-box"><img data-gif-tag="working" alt="Katze am Laptop"></div>
       <div class="btn-row hidden" id="trip-next-row">
         <button class="btn-primary" id="btn-trip-next">Weiter ➡️</button>
       </div>
@@ -407,7 +407,7 @@
       <div class="reveal-text hidden" id="stay-text">
         Grundsätzlich werde ich bei <strong>Steffi</strong> sein und auch bei ihr tagsüber arbeiten. Wenn wir spontan an einzelnen Tagen Bock haben, dann natürlich auch bei dir.
       </div>
-      <div class="gif-box"><img data-gif-tag="cat sleeping cozy" alt="schlafende Katze"></div>
+      <div class="gif-box"><img data-gif-tag="sleeping" alt="schlafende Katze"></div>
       <div class="btn-row hidden" id="stay-next-row">
         <button class="btn-primary" id="btn-stay-next">Klingt gut. Und was sind das für Events, zu denen du gehen willst?</button>
       </div>
@@ -439,8 +439,9 @@
   <div class="screen" id="screen-birthday">
     <div class="card">
       <h1 class="title">🎂 Am 24.10. hast du Geburtstag! 🎉</h1>
+      <div class="gif-box"><img data-gif-tag="birthday" alt="Geburtstags-Katze"></div>
       <div class="btn-row" style="align-items:center;">
-        <img class="inline-gif" data-gif-tag="grumpy cat annoyed" alt="Grumpy Cat">
+        <img class="inline-gif" data-gif-tag="grumpy" alt="Grumpy Cat">
         <button class="btn-ghost" id="btn-bday-grumpy">Don't remind me... Ich hasse diesen Tag.</button>
       </div>
     </div>
@@ -453,7 +454,7 @@
       <p class="body-text">
         I know. Zufällig spielt da aber noch eine Band in Köln, die ich gern sehen möchte. Also dachte ich, vlt willst du mitkommen und dich statt auf deinen Geburtstag einfach auf die Show freuen? Das Ticket wäre dann mein kleines Geburtstagsgeschenk for u.
       </p>
-      <div class="gif-box"><img data-gif-tag="cat smirk sneaky" alt="schelmische Katze"></div>
+      <div class="gif-box"><img data-gif-tag="smirk" alt="schelmische Katze"></div>
       <div class="btn-row" id="bday-invite-question">
         <button class="btn-no" id="btn-bday-invite-no" data-variant="D">Nein, kein Bock 🙅</button>
         <button class="btn-primary" id="btn-bday-reveal-next">ja villaisch... Aber wer spielt denn überhaupt?</button>
@@ -472,7 +473,7 @@
       <p class="body-text">
         Da jetzt schon das Geschenk selbst keine Überraschung mehr ist, sollte eigentlich wenigstens das ein Geheimnis bleiben... Aber wenn du willst, kann ich dir das Genre verraten. Wo ich mir jedoch sicher bin: you gonna like it! very mucho!
       </p>
-      <div class="gif-box"><img data-gif-tag="mysterious black cat" alt="mysteriöse Katze"></div>
+      <div class="gif-box"><img data-gif-tag="mysterious" alt="mysteriöse Katze"></div>
       <div class="btn-row" id="surprise-question">
         <button class="btn-info" id="btn-sur-spill">Spucks aus! 🗣️</button>
         <button class="btn-ghost" id="btn-sur-keep">Ich lass mich überraschen 🤫</button>
@@ -519,35 +520,34 @@
   "use strict";
 
   /* ======================================================
-     GIPHY (öffentlicher Giphy-Beta-Demo-Key, kein eigener nötig)
+     GIFS — fest hinterlegte Giphy-IDs (statt Live-Suche: robuster,
+     schneller, kein API-Key-Ärger)
      ====================================================== */
-  const GIPHY_KEY = "dc6zaTOxFJmzC";
-  const gifCache = {};
-
-  async function fetchGifUrls(tag) {
-    if (gifCache[tag]) return gifCache[tag];
-    try {
-      const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(tag)}&limit=12&rating=g&lang=en`);
-      const data = await res.json();
-      const urls = (data.data || [])
-        .map(g => g.images && g.images.fixed_height && g.images.fixed_height.url)
-        .filter(Boolean);
-      gifCache[tag] = urls.length ? urls : null;
-      return gifCache[tag];
-    } catch (e) {
-      gifCache[tag] = null;
-      return null;
-    }
+  function giphyUrl(id) {
+    return `https://media.giphy.com/media/${id}/giphy.gif`;
   }
+
+  const GIF_POOLS = {
+    'curious': ['tR1ZZeJXR9RUDvaFVP'],
+    'working': ['P8ef3Dkynk0xLx1h1T', 'q6RoNkLlFNjaw'],
+    'sleeping': ['2cuI0vwb7w0wmDv7b0'],
+    'headbang': ['rrasLFSTyi4Th1e8Xo', 'kGNldrILTzYKV5DvXX'],
+    'crying': ['c4AFaiFaNSWCP0yFBD', 'aWnEiVFcvTgIz7MuxG'],
+    'grumpy': ['KsMT02cXvy0AN7j4Md'],
+    'smirk': ['2cuI0vwb7w0wmDv7b0'],
+    'mysterious': ['9K6CebIaqQmAMxJcJQ'],
+    'celebrating': ['JVE8NttH5jimkD03tw', 'v8x4bkRm2aQEGjQNH3'],
+    'chasing': ['c39G3b12cyqmEhOxib'],
+    'birthday': ['S9NSUUTNtV2dG', 'QDRJ6IJzFSR1K']
+  };
 
   async function setRandomGif(imgEl, tag) {
     if (!imgEl) return;
-    const urls = await fetchGifUrls(tag);
-    if (urls && urls.length) {
-      imgEl.src = urls[Math.floor(Math.random() * urls.length)];
+    const ids = GIF_POOLS[tag];
+    if (ids && ids.length) {
+      imgEl.src = giphyUrl(ids[Math.floor(Math.random() * ids.length)]);
       imgEl.style.display = "";
     } else {
-      // Fallback, falls kein Netz / Giphy nicht erreichbar
       imgEl.style.display = "none";
     }
   }
@@ -704,7 +704,7 @@
       chaseCat = document.createElement('img');
       chaseCat.className = 'chase-cat';
       chaseCat.alt = 'jagende Katze';
-      setRandomGif(chaseCat, 'cat chasing playful');
+      setRandomGif(chaseCat, 'chasing');
       document.body.appendChild(chaseCat);
     }
 
@@ -993,11 +993,11 @@
     const cap = document.getElementById('concert1-caption');
     box.classList.remove('hidden');
     if (val) {
-      setRandomGif(img, 'cat headbang rock excited');
+      setRandomGif(img, 'headbang');
       cap.textContent = 'JAAA! 🤘🎉';
       launchConfetti(120);
     } else {
-      setRandomGif(img, 'crying cat dramatic');
+      setRandomGif(img, 'crying');
       cap.textContent = 'Schade! 😢 (aber nicht schlimm)';
     }
     document.getElementById('concert1-next-row').classList.remove('hidden');
@@ -1021,7 +1021,7 @@
     const img = box.querySelector('img');
     const cap = document.getElementById('bday-decline-caption');
     box.classList.remove('hidden');
-    setRandomGif(img, 'crying cat dramatic');
+    setRandomGif(img, 'crying');
     cap.textContent = 'Schaaade! 😭 (total okay)';
     document.getElementById('bday-decline-next-row').classList.remove('hidden');
   });
@@ -1080,11 +1080,11 @@
     const cap = document.getElementById('summary-caption');
 
     if (yesCount >= Math.ceil(totalAsked / 2)) {
-      setRandomGif(img, 'cat celebrating party dancing');
+      setRandomGif(img, 'celebrating');
       cap.textContent = 'Mission überwiegend erfolgreich! 🎉🐱';
       launchConfetti(220);
     } else {
-      setRandomGif(img, 'crying cat dramatic funny');
+      setRandomGif(img, 'crying');
       cap.textContent = 'Übertrieben dramatische Enttäuschung (nicht ernst gemeint) 😭💔';
     }
   }
