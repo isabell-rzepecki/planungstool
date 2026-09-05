@@ -6,12 +6,12 @@
 <title>✨ GEHEIMER PLAN ✨</title>
 <style>
   /* ============ FONTS / RESET ============ */
-  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Bungee&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Bungee&display=swap');
 
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0; height: 100%;
-    font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
     overflow-x: hidden;
     cursor: default;
   }
@@ -165,7 +165,7 @@
     margin-top: 24px;
   }
   button {
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
     font-weight: 700;
     font-size: 17px;
     padding: 14px 22px;
@@ -454,8 +454,13 @@
         I know. Zufällig spielt da aber noch eine Band in Köln, die ich gern sehen möchte. Also dachte ich, vlt willst du mitkommen und dich statt auf deinen Geburtstag einfach auf die Show freuen? Das Ticket wäre dann mein kleines Geburtstagsgeschenk for u.
       </p>
       <div class="gif-box"><img data-gif-tag="cat smirk sneaky" alt="schelmische Katze"></div>
-      <div class="btn-row">
+      <div class="btn-row" id="bday-invite-question">
+        <button class="btn-no" id="btn-bday-invite-no" data-variant="D">Nein, kein Bock 🙅</button>
         <button class="btn-primary" id="btn-bday-reveal-next">ja villaisch... Aber wer spielt denn überhaupt?</button>
+      </div>
+      <div class="gif-box hidden" id="bday-decline-gif"><img alt="Reaktion"><div class="gif-caption" id="bday-decline-caption"></div></div>
+      <div class="btn-row hidden" id="bday-decline-next-row">
+        <button class="btn-primary" id="btn-bday-decline-next">Weiter ➡️</button>
       </div>
     </div>
   </div>
@@ -492,7 +497,7 @@
         </div>
         <div class="result-row">
           <span>🎁 Geburtstags-Überraschungskonzert (24.10.)</span>
-          <span class="stamp yes">✅ GEBUCHT</span>
+          <span class="stamp" id="stamp-surprise">–</span>
         </div>
         <p id="genre-summary-note" style="text-align:center; font-weight:700; font-size:14px;"></p>
       </div>
@@ -841,7 +846,7 @@
      TYPEWRITER — Text erscheint Buchstabe für Buchstabe
      ====================================================== */
   function typeNode(el, speed) {
-    speed = speed || 12;
+    speed = speed || 35;
     if (el.dataset.typed === '1') return Promise.resolve();
     el.dataset.typed = '1';
     return new Promise((resolve) => {
@@ -908,11 +913,19 @@
      WIZARD STATE & NAVIGATION
      ====================================================== */
   const state = {
-    concert1: null,      // true/false
-    genreRevealed: null  // true/false
+    concert1: null,         // true/false
+    surpriseAccepted: null, // true/false
+    genreRevealed: null     // true/false
   };
 
-  const path = ['screen-intro', 'screen-trip', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal', 'screen-surprise', 'screen-summary'];
+  const baseOrder = ['screen-intro', 'screen-trip', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal'];
+
+  function currentPath() {
+    if (state.surpriseAccepted === false) {
+      return [...baseOrder, 'screen-summary'];
+    }
+    return [...baseOrder, 'screen-surprise', 'screen-summary'];
+  }
 
   function showScreen(id) {
     cleanupFleeControllers();
@@ -927,6 +940,7 @@
   }
 
   function updateProgress() {
+    const path = currentPath();
     const idx = path.indexOf(document.querySelector('.screen.active').id);
     const pct = ((idx + 1) / path.length) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
@@ -934,6 +948,7 @@
   }
 
   function goNext() {
+    const path = currentPath();
     const curId = document.querySelector('.screen.active').id;
     const idx = path.indexOf(curId);
     if (idx < path.length - 1) {
@@ -995,7 +1010,25 @@
   document.getElementById('btn-bday-grumpy').addEventListener('click', goNext);
 
   /* ---------- Screen: Band tease ---------- */
-  document.getElementById('btn-bday-reveal-next').addEventListener('click', goNext);
+  document.getElementById('btn-bday-reveal-next').addEventListener('click', () => {
+    state.surpriseAccepted = true;
+    goNext();
+  });
+  document.getElementById('btn-bday-invite-no').addEventListener('click', () => {
+    state.surpriseAccepted = false;
+    document.getElementById('bday-invite-question').classList.add('hidden');
+    const box = document.getElementById('bday-decline-gif');
+    const img = box.querySelector('img');
+    const cap = document.getElementById('bday-decline-caption');
+    box.classList.remove('hidden');
+    setRandomGif(img, 'crying cat dramatic');
+    cap.textContent = 'Schaaade! 😭 (total okay)';
+    document.getElementById('bday-decline-next-row').classList.remove('hidden');
+  });
+  document.getElementById('btn-bday-decline-next').addEventListener('click', () => {
+    goNext();
+    renderSummary();
+  });
 
   /* ---------- Screen: Surprise / Genre choice ---------- */
   document.getElementById('btn-sur-spill').addEventListener('click', () => {
@@ -1029,6 +1062,7 @@
 
   function renderSummary() {
     stampEl('stamp-concert1', state.concert1);
+    stampEl('stamp-surprise', state.surpriseAccepted);
 
     const note = document.getElementById('genre-summary-note');
     if (state.genreRevealed === true) {
@@ -1039,8 +1073,8 @@
       note.textContent = '';
     }
 
-    const yesCount = [state.concert1, true].filter(v => v === true).length;
-    const totalAsked = 2;
+    const yesCount = [state.concert1, state.surpriseAccepted].filter(v => v === true).length;
+    const totalAsked = [state.concert1, state.surpriseAccepted].filter(v => v !== null).length;
 
     const img = document.querySelector('#summary-gif-box img');
     const cap = document.getElementById('summary-caption');
@@ -1059,10 +1093,14 @@
 
   document.getElementById('btn-restart').addEventListener('click', () => {
     state.concert1 = null;
+    state.surpriseAccepted = null;
     state.genreRevealed = null;
     document.getElementById('concert1-question').classList.remove('hidden');
     document.getElementById('concert1-result-gif').classList.add('hidden');
     document.getElementById('concert1-next-row').classList.add('hidden');
+    document.getElementById('bday-invite-question').classList.remove('hidden');
+    document.getElementById('bday-decline-gif').classList.add('hidden');
+    document.getElementById('bday-decline-next-row').classList.add('hidden');
     document.getElementById('surprise-question').classList.remove('hidden');
     document.getElementById('surprise-next-row').classList.add('hidden');
     document.getElementById('genre-text').classList.add('hidden');
