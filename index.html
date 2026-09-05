@@ -251,6 +251,14 @@
     margin-top: 4px;
     color: #6b21a8;
   }
+  .inline-gif {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #1a0033;
+    box-shadow: 3px 3px 0 #ff6ec4;
+  }
 
   /* ============ SUMMARY / CERTIFICATE ============ */
   .certificate {
@@ -357,8 +365,8 @@
       <p class="body-text">Willst du wissen, was ich vorhabe? <span class="blink">🌟 NEU 🌟</span></p>
       <div class="gif-box"><img data-gif-tag="cute curious cat" alt="neugierige Katze"><div class="gif-caption">*neugierig guckt*</div></div>
       <div class="btn-row">
-        <button class="btn-primary" id="btn-intro-yes">Ja, will ich wissen! 😍</button>
         <button class="btn-no" id="btn-intro-no" data-variant="A">Nein 🙅</button>
+        <button class="btn-primary" id="btn-intro-yes">Ja, will ich wissen! 😍</button>
       </div>
       <div class="reveal-text hidden" id="intro-caught-text">Na gut, wenn's sein muss... 😏 Ich erzähl's dir trotzdem!</div>
     </div>
@@ -376,10 +384,10 @@
         Ich möchte auf zwei Events in Köln gehen, dem öden Herbst in Witzi entfliehen und einfach mal von woanders aus arbeiten 🌍💻 Und dabei pflege ich ganz nebenbei auch noch mein Netzwerk in Bonn 😄
       </div>
       <div class="btn-row hidden" id="trip-bonus-row">
-        <button class="btn-ghost" id="btn-trip-bonus">Welches Netzwerk? 👀</button>
+        <button class="btn-ghost" id="btn-trip-bonus">ähhh... Welches.. Netzwerk? 👀</button>
       </div>
       <div class="reveal-text hidden" id="trip-bonus-text">
-        Ok, "Netzwerk" ist vielleicht ein bisschen übertrieben... 😅 Konkret: Steffi und Thomas, die ich auf meiner Marokko-Reise kennengelernt habe. Außerdem schau ich vielleicht auch bei Stefan Hörmann und dem Global Nature Fund im Büro vorbei – lange Geschichte, aber wir sind gut, er meinte ich soll vorbeikommen, wenn ich in Bonn bin 😄 Und dann gibt's da noch so einen Typen, der auf dem Gelände der LVR-Klinik wohnt... 👀
+        Okay, "Netzwerk" ist vielleicht leicht gehypt – "zufällige Bekanntschaften" klingt auf LinkedIn halt einfach schlechter 😏 Konkret: Steffi und Thomas, die ich auf meiner Marokko-Reise kennengelernt habe. Außerdem schau ich vielleicht auch bei Stefan Hörmann und dem Global Nature Fund im Büro vorbei – vielleicht erinnerst du dich, ich hab da letztes Jahr ein Jobangebot ausgeschlagen, bin aber nach wie vor gut mit ihm, und er meinte, ich soll vorbeikommen, wenn ich mal in Bonn bin 😄 Und dann gibt's da noch so einen Typen, der auf dem Gelände der LVR-Klinik wohnt... 👀
       </div>
       <div class="gif-box"><img data-gif-tag="cat working laptop" alt="Katze am Laptop"></div>
       <div class="btn-row hidden" id="trip-next-row">
@@ -392,16 +400,16 @@
   <div class="screen" id="screen-stay">
     <div class="card">
       <h1 class="title">🏠 Übernachtungsfrage 🛏️</h1>
-      <p class="body-text">Wo übernachtest du eigentlich?</p>
+      <p class="body-text">Ok, klingt gut, aber wo planst du, 10 Tage zu übernachten?</p>
       <div class="btn-row">
-        <button class="btn-info" id="btn-stay-reveal">Verraten! 🤫</button>
+        <button class="btn-info" id="btn-stay-reveal">Valid Question! Click to reveal</button>
       </div>
       <div class="reveal-text hidden" id="stay-text">
-        Grundsätzlich bei <strong><span id="stayNamePlaceholder">[NAME_HIER_EINTRAGEN]</span></strong> – aber wenn wir spontan Bock haben, dann vielleicht auch mal bei dir 😏
+        Grundsätzlich werde ich bei <strong>Steffi</strong> sein und auch bei ihr tagsüber arbeiten. Wenn wir spontan an einzelnen Tagen Bock haben, dann natürlich auch bei dir.
       </div>
       <div class="gif-box"><img data-gif-tag="cat sleeping cozy" alt="schlafende Katze"></div>
       <div class="btn-row hidden" id="stay-next-row">
-        <button class="btn-primary" id="btn-stay-next">Weiter ➡️</button>
+        <button class="btn-primary" id="btn-stay-next">Klingt gut. Und was sind das für Events, zu denen du gehen willst?</button>
       </div>
     </div>
   </div>
@@ -427,45 +435,45 @@
     </div>
   </div>
 
-  <!-- SCREEN 4: BIRTHDAY GATE -->
+  <!-- SCREEN 4: BIRTHDAY TEASER -->
   <div class="screen" id="screen-birthday">
     <div class="card">
-      <h1 class="title">🎂 Übrigens... 🎉</h1>
-      <p class="body-text">Am <strong>24.10.</strong> hast du Geburtstag!</p>
-      <p class="body-text">Willst du dir den Abend grundsätzlich schon mal freihalten – für irgendwas Gemeinsames? 👀</p>
-      <div class="btn-row" id="birthday-question">
-        <button class="btn-yes" id="btn-bday-yes">Ja, freihalten! 🎈</button>
-        <button class="btn-no" id="btn-bday-no" data-variant="C">Nein</button>
-      </div>
-      <div class="gif-box hidden" id="birthday-result-gif"><img alt="Reaktion"><div class="gif-caption" id="birthday-caption"></div></div>
-      <div class="btn-row hidden" id="birthday-next-row">
-        <button class="btn-primary" id="btn-bday-next">Weiter ➡️</button>
+      <h1 class="title">🎂 Am 24.10. hast du Geburtstag! 🎉</h1>
+      <div class="btn-row" style="align-items:center;">
+        <img class="inline-gif" data-gif-tag="grumpy cat annoyed" alt="Grumpy Cat">
+        <button class="btn-ghost" id="btn-bday-grumpy">Don't remind me... Ich hasse diesen Tag.</button>
       </div>
     </div>
   </div>
 
-  <!-- SCREEN 5: SURPRISE -->
+  <!-- SCREEN 4b: BAND-TEASE -->
+  <div class="screen" id="screen-bday-reveal">
+    <div class="card">
+      <h1 class="title">🎸 Zufällig... 👀</h1>
+      <p class="body-text">
+        I know. Zufällig spielt da aber noch eine Band in Köln, die ich gern sehen möchte. Also dachte ich, vlt willst du mitkommen und dich statt auf deinen Geburtstag einfach auf die Show freuen? Das Ticket wäre dann mein kleines Geburtstagsgeschenk for u.
+      </p>
+      <div class="gif-box"><img data-gif-tag="cat smirk sneaky" alt="schelmische Katze"></div>
+      <div class="btn-row">
+        <button class="btn-primary" id="btn-bday-reveal-next">ja villaisch... Aber wer spielt denn überhaupt?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: SURPRISE / GENRE CHOICE -->
   <div class="screen" id="screen-surprise">
     <div class="card">
       <h1 class="title">🎁 Die Überraschung 🖤</h1>
       <p class="body-text">
-        Ich hab nämlich ein Geschenk für dich: ein Ticket zu einem Konzert in Köln 🎫✨<br>
-        <strong>WER</strong> spielt, verrate ich aber nicht 🤫
+        Da jetzt schon das Geschenk selbst keine Überraschung mehr ist, sollte eigentlich wenigstens das ein Geheimnis bleiben... Aber wenn du willst, kann ich dir das Genre verraten. Wo ich mir jedoch sicher bin: you gonna like it! very mucho!
       </p>
-      <p class="body-text" style="font-size:16px;">
-        Ich glaube, es ist richtig cool, wenn du die Band zum allerersten Mal live hörst, ganz ohne Erwartungen. Kein Riesenname, aber ich bin überzeugt, es gefällt dir.
-      </p>
-      <div class="btn-row">
-        <button class="btn-ghost" id="btn-genre-reveal">Willst du wenigstens das Genre wissen? 👀</button>
+      <div class="gif-box"><img data-gif-tag="mysterious black cat" alt="mysteriöse Katze"></div>
+      <div class="btn-row" id="surprise-question">
+        <button class="btn-info" id="btn-sur-spill">Spucks aus! 🗣️</button>
+        <button class="btn-ghost" id="btn-sur-keep">Ich lass mich überraschen 🤫</button>
       </div>
       <div class="reveal-text hidden" id="genre-text">🖤 Genre: Black Metal 🖤</div>
-      <div class="gif-box"><img data-gif-tag="mysterious black cat" alt="mysteriöse Katze"></div>
-      <p class="body-text">Nimmst du die Überraschung an?</p>
-      <div class="btn-row" id="surprise-question">
-        <button class="btn-yes" id="btn-sur-yes">Ja, überrasch mich! 🖤🎫</button>
-        <button class="btn-no" id="btn-sur-no" data-variant="D">Nein</button>
-      </div>
-      <div class="gif-box hidden" id="surprise-result-gif"><img alt="Reaktion"><div class="gif-caption" id="surprise-caption"></div></div>
+      <div class="reveal-text hidden" id="keep-surprise-text">Mutig! 😏 Dann lässt du dich einfach überraschen.</div>
       <div class="btn-row hidden" id="surprise-next-row">
         <button class="btn-primary" id="btn-sur-next">Zur Auswertung! ➡️</button>
       </div>
@@ -483,13 +491,10 @@
           <span class="stamp" id="stamp-concert1">–</span>
         </div>
         <div class="result-row">
-          <span>🎂 Geburtstagsabend freihalten</span>
-          <span class="stamp" id="stamp-birthday">–</span>
+          <span>🎁 Geburtstags-Überraschungskonzert (24.10.)</span>
+          <span class="stamp yes">✅ GEBUCHT</span>
         </div>
-        <div class="result-row">
-          <span>🎁 Überraschungs-Ticket</span>
-          <span class="stamp" id="stamp-surprise">–</span>
-        </div>
+        <p id="genre-summary-note" style="text-align:center; font-weight:700; font-size:14px;"></p>
       </div>
       <div class="gif-box" id="summary-gif-box"><img alt="Finale Reaktion"><div class="gif-caption" id="summary-caption"></div></div>
       <div class="btn-row">
@@ -507,11 +512,6 @@
 <script>
 (function () {
   "use strict";
-
-  /* ======================================================
-     PLATZHALTER — HIER NAMEN EINTRAGEN
-     ====================================================== */
-  document.getElementById('stayNamePlaceholder').textContent = "[NAME_HIER_EINTRAGEN]";
 
   /* ======================================================
      GIPHY (öffentlicher Giphy-Beta-Demo-Key, kein eigener nötig)
@@ -838,24 +838,81 @@
   }
 
   /* ======================================================
+     TYPEWRITER — Text erscheint Buchstabe für Buchstabe
+     ====================================================== */
+  function typeNode(el, speed) {
+    speed = speed || 12;
+    if (el.dataset.typed === '1') return Promise.resolve();
+    el.dataset.typed = '1';
+    return new Promise((resolve) => {
+      const temp = document.createElement('div');
+      temp.innerHTML = el.innerHTML;
+
+      function cloneEmpty(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const t = document.createTextNode('');
+          t.__full = Array.from(node.textContent);
+          return t;
+        }
+        const clone = node.cloneNode(false);
+        node.childNodes.forEach(child => clone.appendChild(cloneEmpty(child)));
+        return clone;
+      }
+
+      el.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      Array.from(temp.childNodes).forEach(n => frag.appendChild(cloneEmpty(n)));
+      el.appendChild(frag);
+
+      const textNodes = [];
+      (function collect(node) {
+        if (node.nodeType === Node.TEXT_NODE) textNodes.push(node);
+        else node.childNodes.forEach(collect);
+      })(el);
+
+      let ni = 0, ci = 0;
+      function step() {
+        if (ni >= textNodes.length) { resolve(); return; }
+        const node = textNodes[ni];
+        const chars = node.__full;
+        if (ci < chars.length) {
+          node.textContent += chars[ci];
+          ci++;
+          setTimeout(step, speed);
+        } else {
+          ni++; ci = 0;
+          step();
+        }
+      }
+      step();
+    });
+  }
+
+  async function typeSequential(elements, speed) {
+    for (const el of elements) {
+      await typeNode(el, speed);
+    }
+  }
+
+  function typeScreenTexts(screenEl) {
+    const targets = screenEl.querySelectorAll('h1.title, p.body-text');
+    typeSequential(Array.from(targets));
+  }
+
+  function revealTyped(el, speed) {
+    el.classList.remove('hidden');
+    typeNode(el, speed);
+  }
+
+  /* ======================================================
      WIZARD STATE & NAVIGATION
      ====================================================== */
   const state = {
-    concert1: null,   // true/false
-    birthday: null,   // true/false
-    surprise: null     // true/false/null(=not asked)
+    concert1: null,      // true/false
+    genreRevealed: null  // true/false
   };
 
-  const baseOrder = ['screen-intro', 'screen-trip', 'screen-stay', 'screen-concert1', 'screen-birthday'];
-
-  function currentPath() {
-    if (state.birthday === true) {
-      return [...baseOrder, 'screen-surprise', 'screen-summary'];
-    }
-    return [...baseOrder, 'screen-summary'];
-  }
-
-  let currentIndex = 0;
+  const path = ['screen-intro', 'screen-trip', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal', 'screen-surprise', 'screen-summary'];
 
   function showScreen(id) {
     cleanupFleeControllers();
@@ -864,12 +921,12 @@
     el.classList.add('active');
     el.querySelectorAll('button[data-variant]').forEach(attachFlee);
     loadGifsInScreen(el);
+    typeScreenTexts(el);
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function updateProgress() {
-    const path = currentPath();
     const idx = path.indexOf(document.querySelector('.screen.active').id);
     const pct = ((idx + 1) / path.length) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
@@ -877,7 +934,6 @@
   }
 
   function goNext() {
-    const path = currentPath();
     const curId = document.querySelector('.screen.active').id;
     const idx = path.indexOf(curId);
     if (idx < path.length - 1) {
@@ -888,26 +944,26 @@
   /* ---------- Screen: Intro ---------- */
   document.getElementById('btn-intro-yes').addEventListener('click', goNext);
   document.getElementById('btn-intro-no').addEventListener('click', () => {
-    document.getElementById('intro-caught-text').classList.remove('hidden');
+    revealTyped(document.getElementById('intro-caught-text'));
     setTimeout(goNext, 1400);
   });
 
   /* ---------- Screen: Trip ---------- */
   document.getElementById('btn-trip-why').addEventListener('click', () => {
-    document.getElementById('trip-why-text').classList.remove('hidden');
+    revealTyped(document.getElementById('trip-why-text'));
     document.getElementById('trip-bonus-row').classList.remove('hidden');
     document.getElementById('trip-next-row').classList.remove('hidden');
     document.getElementById('btn-trip-why').disabled = true;
   });
   document.getElementById('btn-trip-bonus').addEventListener('click', () => {
-    document.getElementById('trip-bonus-text').classList.remove('hidden');
+    revealTyped(document.getElementById('trip-bonus-text'));
     document.getElementById('btn-trip-bonus').disabled = true;
   });
   document.getElementById('btn-trip-next').addEventListener('click', goNext);
 
   /* ---------- Screen: Stay ---------- */
   document.getElementById('btn-stay-reveal').addEventListener('click', () => {
-    document.getElementById('stay-text').classList.remove('hidden');
+    revealTyped(document.getElementById('stay-text'));
     document.getElementById('stay-next-row').classList.remove('hidden');
     document.getElementById('btn-stay-reveal').disabled = true;
   });
@@ -935,53 +991,25 @@
   document.getElementById('btn-c1-no').addEventListener('click', () => answerConcert1(false));
   document.getElementById('btn-c1-next').addEventListener('click', goNext);
 
-  /* ---------- Screen: Birthday gate ---------- */
-  function answerBirthday(val) {
-    state.birthday = val;
-    document.getElementById('birthday-question').classList.add('hidden');
-    const box = document.getElementById('birthday-result-gif');
-    const img = box.querySelector('img');
-    const cap = document.getElementById('birthday-caption');
-    box.classList.remove('hidden');
-    if (val) {
-      setRandomGif(img, 'cat birthday party happy');
-      cap.textContent = 'Freihalten aktiviert! 🎉📅';
-    } else {
-      setRandomGif(img, 'sad cat dramatic');
-      cap.textContent = 'Na gut... 😔';
-      state.surprise = null;
-    }
-    document.getElementById('birthday-next-row').classList.remove('hidden');
-  }
-  document.getElementById('btn-bday-yes').addEventListener('click', () => answerBirthday(true));
-  document.getElementById('btn-bday-no').addEventListener('click', () => answerBirthday(false));
-  document.getElementById('btn-bday-next').addEventListener('click', goNext);
+  /* ---------- Screen: Birthday teaser ---------- */
+  document.getElementById('btn-bday-grumpy').addEventListener('click', goNext);
 
-  /* ---------- Screen: Surprise ---------- */
-  document.getElementById('btn-genre-reveal').addEventListener('click', () => {
-    document.getElementById('genre-text').classList.remove('hidden');
-    document.getElementById('btn-genre-reveal').disabled = true;
-  });
+  /* ---------- Screen: Band tease ---------- */
+  document.getElementById('btn-bday-reveal-next').addEventListener('click', goNext);
 
-  function answerSurprise(val) {
-    state.surprise = val;
+  /* ---------- Screen: Surprise / Genre choice ---------- */
+  document.getElementById('btn-sur-spill').addEventListener('click', () => {
+    state.genreRevealed = true;
     document.getElementById('surprise-question').classList.add('hidden');
-    const box = document.getElementById('surprise-result-gif');
-    const img = box.querySelector('img');
-    const cap = document.getElementById('surprise-caption');
-    box.classList.remove('hidden');
-    if (val) {
-      setRandomGif(img, 'excited cat sparkle happy');
-      cap.textContent = 'Mysteriöses Ticket gesichert! 🖤🎫';
-      launchConfetti(120);
-    } else {
-      setRandomGif(img, 'crying cat dramatic');
-      cap.textContent = 'Schaaade! 😭 (total okay)';
-    }
+    revealTyped(document.getElementById('genre-text'));
     document.getElementById('surprise-next-row').classList.remove('hidden');
-  }
-  document.getElementById('btn-sur-yes').addEventListener('click', () => answerSurprise(true));
-  document.getElementById('btn-sur-no').addEventListener('click', () => answerSurprise(false));
+  });
+  document.getElementById('btn-sur-keep').addEventListener('click', () => {
+    state.genreRevealed = false;
+    document.getElementById('surprise-question').classList.add('hidden');
+    revealTyped(document.getElementById('keep-surprise-text'));
+    document.getElementById('surprise-next-row').classList.remove('hidden');
+  });
   document.getElementById('btn-sur-next').addEventListener('click', goNext);
 
   /* ---------- Screen: Summary ---------- */
@@ -1001,18 +1029,23 @@
 
   function renderSummary() {
     stampEl('stamp-concert1', state.concert1);
-    stampEl('stamp-birthday', state.birthday);
-    stampEl('stamp-surprise', state.birthday ? state.surprise : null);
 
-    const yesCount = [state.concert1, state.birthday, state.birthday ? state.surprise : null]
-      .filter(v => v === true).length;
-    const totalAsked = [state.concert1, state.birthday, state.birthday ? state.surprise : null]
-      .filter(v => v !== null).length;
+    const note = document.getElementById('genre-summary-note');
+    if (state.genreRevealed === true) {
+      note.textContent = '🖤 Genre wurde verraten: Black Metal';
+    } else if (state.genreRevealed === false) {
+      note.textContent = '🤫 Ließ sich komplett überraschen';
+    } else {
+      note.textContent = '';
+    }
+
+    const yesCount = [state.concert1, true].filter(v => v === true).length;
+    const totalAsked = 2;
 
     const img = document.querySelector('#summary-gif-box img');
     const cap = document.getElementById('summary-caption');
 
-    if (yesCount >= Math.ceil(totalAsked / 2) && yesCount > 0) {
+    if (yesCount >= Math.ceil(totalAsked / 2)) {
       setRandomGif(img, 'cat celebrating party dancing');
       cap.textContent = 'Mission überwiegend erfolgreich! 🎉🐱';
       launchConfetti(220);
@@ -1023,28 +1056,17 @@
   }
 
   document.getElementById('btn-sur-next').addEventListener('click', renderSummary);
-  document.getElementById('btn-bday-next').addEventListener('click', () => {
-    // Falls Geburtstag = Nein, geht's direkt zur Summary -> hier rendern
-    if (state.birthday === false) {
-      setTimeout(renderSummary, 50);
-    }
-  });
 
   document.getElementById('btn-restart').addEventListener('click', () => {
     state.concert1 = null;
-    state.birthday = null;
-    state.surprise = null;
+    state.genreRevealed = null;
     document.getElementById('concert1-question').classList.remove('hidden');
     document.getElementById('concert1-result-gif').classList.add('hidden');
     document.getElementById('concert1-next-row').classList.add('hidden');
-    document.getElementById('birthday-question').classList.remove('hidden');
-    document.getElementById('birthday-result-gif').classList.add('hidden');
-    document.getElementById('birthday-next-row').classList.add('hidden');
     document.getElementById('surprise-question').classList.remove('hidden');
-    document.getElementById('surprise-result-gif').classList.add('hidden');
     document.getElementById('surprise-next-row').classList.add('hidden');
     document.getElementById('genre-text').classList.add('hidden');
-    document.getElementById('btn-genre-reveal').disabled = false;
+    document.getElementById('keep-surprise-text').classList.add('hidden');
     document.getElementById('intro-caught-text').classList.add('hidden');
     document.getElementById('trip-why-text').classList.add('hidden');
     document.getElementById('trip-bonus-text').classList.add('hidden');
@@ -1055,6 +1077,7 @@
     document.getElementById('stay-text').classList.add('hidden');
     document.getElementById('stay-next-row').classList.add('hidden');
     document.getElementById('btn-stay-reveal').disabled = false;
+    document.querySelectorAll('[data-typed]').forEach(el => delete el.dataset.typed);
     showScreen('screen-intro');
   });
 
