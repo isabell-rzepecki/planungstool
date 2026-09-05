@@ -503,9 +503,23 @@
       <div class="btn-row hidden" data-reveal-after-type="screen">
         <button class="btn-ghost" id="btn-trip-bonus2">Verstehe…</button>
       </div>
-      <div class="reveal-text hidden" id="trip-bonus2-text">
-        To be precise:<br>
-        Steffi und Thomas, die ich auf meiner Marokko-Reise kennengelernt habe.<br>
+    </div>
+  </div>
+
+  <!-- SCREEN 1c: NETZWERK DETAILS -->
+  <div class="screen" id="screen-trip-details">
+    <div class="card">
+      <h1 class="title">🕸️ To Be Precise... 👀</h1>
+      <p class="body-text">
+        Steffi und Thomas, die ich auf meiner Marokko-Reise kennengelernt habe.
+      </p>
+      <div class="gif-box hidden" data-reveal-after-type="screen">
+        <img src="steffi_thomas.gif" alt="Steffi und Thomas" style="max-width:280px; width:100%; border-radius:16px; border:4px solid #1a0033; box-shadow:5px 5px 0 #ff6ec4;">
+      </div>
+      <div class="btn-row hidden" data-reveal-after-type="screen">
+        <button class="btn-ghost" id="btn-trip-details-more">Und sonst? 👀</button>
+      </div>
+      <div class="reveal-text hidden" id="trip-details-more-text">
         Außerdem schau ich vielleicht auch beim Global Nature Fund im Büro vorbei – vielleicht erinnerst du dich, ich hab da letztes Jahr ein Jobangebot ausgeschlagen, bin aber nach wie vor gut mit dem GF - er meinte, ich soll mal vorbeikommen, wenn ich mal in Bonn bin.<br>
         Und dann gibt's da noch so einen Typen, der auf dem Gelände der LVR-Klinik wohnt (long story)... 👀
       </div>
@@ -1169,7 +1183,7 @@
     genreRevealed: null     // true/false
   };
 
-  const baseOrder = ['screen-intro', 'screen-trip', 'screen-trip-network', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal'];
+  const baseOrder = ['screen-intro', 'screen-trip', 'screen-trip-network', 'screen-trip-details', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal'];
 
   function currentPath() {
     if (state.surpriseAccepted === false) {
@@ -1262,9 +1276,12 @@
   document.getElementById('btn-trip-bonus').addEventListener('click', goNext);
 
   /* ---------- Screen: Trip Netzwerk ---------- */
-  document.getElementById('btn-trip-bonus2').addEventListener('click', () => {
-    document.getElementById('btn-trip-bonus2').disabled = true;
-    revealTyped(document.getElementById('trip-bonus2-text')).then(() => {
+  document.getElementById('btn-trip-bonus2').addEventListener('click', goNext);
+
+  /* ---------- Screen: Trip Details ---------- */
+  document.getElementById('btn-trip-details-more').addEventListener('click', () => {
+    document.getElementById('btn-trip-details-more').disabled = true;
+    revealTyped(document.getElementById('trip-details-more-text')).then(() => {
       revealButtons(document.getElementById('trip-next-row'));
     });
   });
@@ -1403,11 +1420,12 @@
     document.getElementById('trip-why-text').classList.add('hidden');
     document.getElementById('trip-why-gif').classList.add('hidden');
     document.getElementById('trip-bonus-row').classList.add('hidden');
-    document.getElementById('trip-bonus2-text').classList.add('hidden');
+    document.getElementById('trip-details-more-text').classList.add('hidden');
     document.getElementById('trip-next-row').classList.add('hidden');
     document.getElementById('btn-trip-why').disabled = false;
     document.getElementById('btn-trip-bonus').disabled = false;
     document.getElementById('btn-trip-bonus2').disabled = false;
+    document.getElementById('btn-trip-details-more').disabled = false;
     document.getElementById('stay-text').classList.add('hidden');
     document.getElementById('stay-next-row').classList.add('hidden');
     document.getElementById('btn-stay-reveal').disabled = false;
