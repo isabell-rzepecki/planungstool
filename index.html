@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ GEHEIMER PLAN ✨</title>
+<style>
+  /* ============ FONTS / RESET ============ */
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Bungee&display=swap');
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #ff6ec4, #7873f5, #4ade80, #ffd93d, #ff6ec4);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    color: #1a0033;
+    position: relative;
+  }
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* ============ MARQUEE TOPBAR ============ */
+  .marquee-bar {
+    width: 100%;
+    background: repeating-linear-gradient(45deg, #ff0080, #ff0080 10px, #ffea00 10px, #ffea00 20px);
+    color: #1a0033;
+    font-weight: 700;
+    font-family: 'Bungee', cursive;
+    font-size: 14px;
+    padding: 6px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 4px dashed #1a0033;
+    position: relative;
+    z-index: 5;
+  }
+  .marquee-bar span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 16s linear infinite;
+  }
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-wrap {
+    max-width: 700px;
+    margin: 18px auto 0;
+    padding: 0 20px;
+  }
+  .progress-track {
+    background: rgba(255,255,255,0.5);
+    border: 3px solid #1a0033;
+    border-radius: 20px;
+    height: 24px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 #1a0033;
+  }
+  .progress-fill {
+    height: 100%;
+    background: repeating-linear-gradient(45deg, #ff6ec4, #ff6ec4 8px, #ffd93d 8px, #ffd93d 16px);
+    width: 0%;
+    transition: width 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+    border-radius: 20px 0 0 20px;
+  }
+  .progress-label {
+    text-align: center;
+    font-weight: 700;
+    margin-top: 4px;
+    font-size: 13px;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  /* ============ APP / SCREENS ============ */
+  #app {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+    position: relative;
+  }
+
+  .screen {
+    display: none;
+    animation: popIn 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  .screen.active { display: block; }
+
+  @keyframes popIn {
+    0%   { opacity: 0; transform: scale(0.85) rotate(-2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  .card {
+    background: #fff7fb;
+    border: 4px solid #1a0033;
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: 8px 8px 0 #1a0033;
+    position: relative;
+    overflow: visible;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -14px; left: -14px; right: -14px; bottom: -14px;
+    border: 3px dashed #ff0080;
+    border-radius: 28px;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  h1.title {
+    font-family: 'Bungee', cursive;
+    font-size: 28px;
+    line-height: 1.3;
+    color: #ff0080;
+    text-shadow: 2px 2px 0 #ffd93d, 4px 4px 0 #1a0033;
+    margin-top: 0;
+    text-align: center;
+  }
+  p.body-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 700;
+    text-align: center;
+  }
+  .reveal-text {
+    background: #fff2c2;
+    border: 3px solid #1a0033;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    animation: popIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+    box-shadow: 4px 4px 0 #ff6ec4;
+  }
+  .hidden { display: none !important; }
+
+  .blink {
+    animation: blinker 1s step-start infinite;
+    color: #ff0080;
+    font-family: 'Bungee', cursive;
+  }
+  @keyframes blinker { 50% { opacity: 0; } }
+
+  /* ============ BUTTONS ============ */
+  .btn-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  button {
+    font-family: 'Comic Neue', cursive;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 14px 22px;
+    border-radius: 40px;
+    border: 3px solid #1a0033;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #1a0033;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+    background: linear-gradient(180deg, #b6ffea, #4ade80);
+  }
+  button:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #1a0033; }
+  button:hover { transform: translateY(-2px); }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #ffe08a, #ffb703);
+  }
+  .btn-yes {
+    background: linear-gradient(180deg, #b6ffea, #22c55e);
+    color: #06280f;
+  }
+  .btn-no {
+    background: linear-gradient(180deg, #ffb3c6, #ff0080);
+    color: #3a0018;
+    position: relative;
+    z-index: 20;
+  }
+  .btn-info {
+    background: linear-gradient(180deg, #d6c8ff, #a78bfa);
+  }
+  .btn-ghost {
+    background: linear-gradient(180deg, #e0f2fe, #7dd3fc);
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .btn-no.fleeing {
+    position: fixed !important;
+    transition: left 0.22s ease-out, top 0.22s ease-out, transform 0.22s ease-out, opacity 0.3s;
+  }
+  .btn-no.surrendered {
+    animation: wobble 0.6s ease-in-out infinite;
+    outline: 4px solid #ffd93d;
+  }
+  @keyframes wobble {
+    0%,100% { transform: rotate(-3deg) scale(1.05); }
+    50%     { transform: rotate(3deg) scale(1.05); }
+  }
+
+  .fake-no {
+    position: fixed;
+    z-index: 15;
+    transition: left 0.25s ease-out, top 0.25s ease-out, opacity 0.3s;
+  }
+
+  .chase-cat {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #1a0033;
+    z-index: 18;
+    pointer-events: none;
+    transition: left 0.45s ease-out, top 0.45s ease-out;
+    box-shadow: 3px 3px 0 #1a0033;
+  }
+
+  /* ============ GIF BOX ============ */
+  .gif-box {
+    margin: 18px auto 0;
+    text-align: center;
+  }
+  .gif-box img {
+    max-width: 260px;
+    width: 100%;
+    border-radius: 16px;
+    border: 4px solid #1a0033;
+    box-shadow: 5px 5px 0 #ff6ec4;
+  }
+  .gif-caption {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 4px;
+    color: #6b21a8;
+  }
+
+  /* ============ SUMMARY / CERTIFICATE ============ */
+  .certificate {
+    background: #fffdf0;
+    border: 6px double #b8860b;
+    border-radius: 12px;
+    padding: 26px;
+    position: relative;
+  }
+  .stamp {
+    display: inline-block;
+    border: 4px solid;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-family: 'Bungee', cursive;
+    font-size: 15px;
+    transform: rotate(-4deg);
+    margin: 6px 0;
+  }
+  .stamp.yes { color: #16a34a; border-color: #16a34a; }
+  .stamp.no  { color: #dc2626; border-color: #dc2626; }
+  .stamp.na  { color: #6b7280; border-color: #6b7280; }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 2px dashed #b8860b;
+    padding: 12px 0;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* ============ SPARKLE CURSOR ============ */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 16px;
+    z-index: 9999;
+    animation: sparkleFloat 0.9s ease-out forwards;
+    user-select: none;
+  }
+  @keyframes sparkleFloat {
+    0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(180deg); }
+  }
+
+  /* ============ CONFETTI CANVAS ============ */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a0033;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    z-index: 9997;
+    animation: popIn 0.3s;
+  }
+
+  footer.badges {
+    text-align: center;
+    margin-top: 30px;
+  }
+  footer.badges span {
+    display: inline-block;
+    margin: 0 4px;
+    font-family: 'Bungee', cursive;
+    font-size: 11px;
+    background: #1a0033;
+    color: #ffd93d;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div class="marquee-bar"><span>✨🐱 WILLKOMMEN AUF DIESER VÖLLIG SERIÖSEN WEBSITE 🐱✨ &nbsp;&nbsp;&nbsp; 💾 BEST VIEWED WITH VIBES 💾 &nbsp;&nbsp;&nbsp; 🌟 SCROLL DICH DURCH DEN GEHEIMPLAN 🌟 &nbsp;&nbsp;&nbsp; 🐾 ACHTUNG: KATZEN-GIFS INBOUND 🐾 &nbsp;&nbsp;&nbsp;</span></div>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">Schritt 1</div>
+</div>
+
+<div id="app">
+
+  <!-- SCREEN 0: INTRO -->
+  <div class="screen" id="screen-intro">
+    <div class="card">
+      <h1 class="title">Ich hab da einen Plan... 👀🎉</h1>
+      <p class="body-text">Willst du wissen, was ich vorhabe? <span class="blink">🌟 NEU 🌟</span></p>
+      <div class="gif-box"><img data-gif-tag="cute curious cat" alt="neugierige Katze"><div class="gif-caption">*neugierig guckt*</div></div>
+      <div class="btn-row">
+        <button class="btn-primary" id="btn-intro-yes">Ja, will ich wissen! 😍</button>
+        <button class="btn-no" id="btn-intro-no" data-variant="A">Nein 🙅</button>
+      </div>
+      <div class="reveal-text hidden" id="intro-caught-text">Na gut, wenn's sein muss... 😏 Ich erzähl's dir trotzdem!</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: TRIP -->
+  <div class="screen" id="screen-trip">
+    <div class="card">
+      <h1 class="title">📍 Save the Date 🗓️</h1>
+      <p class="body-text">Ich bin vom <strong>16.–25.10.</strong> in Bonn.</p>
+      <div class="btn-row">
+        <button class="btn-info" id="btn-trip-why">Warum? Was machst du da? 🤔</button>
+      </div>
+      <div class="reveal-text hidden" id="trip-why-text">
+        Ich arbeite tagsüber unter der Woche ganz normal im Home Office weiter, aber die Abende/Nächte können wir zusammen verbringen, wenn du magst 💛
+      </div>
+      <div class="btn-row hidden" id="trip-bonus-row">
+        <button class="btn-ghost" id="btn-trip-bonus">Sonst noch was? 👀</button>
+      </div>
+      <div class="reveal-text hidden" id="trip-bonus-text">
+        Ich schau vielleicht auch beim Global Nature Fund im Büro vorbei – lange Geschichte, aber der Chef und ich sind gut, er meinte ich soll vorbeikommen, wenn ich in Bonn bin 😄
+      </div>
+      <div class="gif-box"><img data-gif-tag="cat working laptop" alt="Katze am Laptop"></div>
+      <div class="btn-row hidden" id="trip-next-row">
+        <button class="btn-primary" id="btn-trip-next">Weiter ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: OVERNIGHT -->
+  <div class="screen" id="screen-stay">
+    <div class="card">
+      <h1 class="title">🏠 Übernachtungsfrage 🛏️</h1>
+      <p class="body-text">Wo übernachtest du eigentlich?</p>
+      <div class="btn-row">
+        <button class="btn-info" id="btn-stay-reveal">Verraten! 🤫</button>
+      </div>
+      <div class="reveal-text hidden" id="stay-text">
+        Grundsätzlich bei <strong><span id="stayNamePlaceholder">[NAME_HIER_EINTRAGEN]</span></strong> – aber wenn wir spontan Bock haben, dann vielleicht auch mal bei dir 😏
+      </div>
+      <div class="gif-box"><img data-gif-tag="cat sleeping cozy" alt="schlafende Katze"></div>
+      <div class="btn-row hidden" id="stay-next-row">
+        <button class="btn-primary" id="btn-stay-next">Weiter ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: CONCERT 1 -->
+  <div class="screen" id="screen-concert1">
+    <div class="card">
+      <h1 class="title">🤘 KONZERT ALARM 🎸</h1>
+      <p class="body-text">
+        Am <strong>16.10.</strong> spielt <strong>The Devil Wears Prada</strong> in Köln!<br>
+        Support: <strong>156/Silence</strong> &amp; <strong>Oversize</strong>.<br>
+        Ich hab schon <strong>2 Tickets</strong> organisiert 🎫🎫
+      </p>
+      <p class="body-text">Willst du mitkommen?</p>
+      <div class="btn-row" id="concert1-question">
+        <button class="btn-yes" id="btn-c1-yes">Ja, klar! 🤘😍</button>
+        <button class="btn-no" id="btn-c1-no" data-variant="B">Nein</button>
+      </div>
+      <div class="gif-box hidden" id="concert1-result-gif"><img alt="Reaktion"><div class="gif-caption" id="concert1-caption"></div></div>
+      <div class="btn-row hidden" id="concert1-next-row">
+        <button class="btn-primary" id="btn-c1-next">Weiter ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: BIRTHDAY GATE -->
+  <div class="screen" id="screen-birthday">
+    <div class="card">
+      <h1 class="title">🎂 Übrigens... 🎉</h1>
+      <p class="body-text">Am <strong>24.10.</strong> hast du Geburtstag!</p>
+      <p class="body-text">Willst du dir den Abend grundsätzlich schon mal freihalten – für irgendwas Gemeinsames? 👀</p>
+      <div class="btn-row" id="birthday-question">
+        <button class="btn-yes" id="btn-bday-yes">Ja, freihalten! 🎈</button>
+        <button class="btn-no" id="btn-bday-no" data-variant="C">Nein</button>
+      </div>
+      <div class="gif-box hidden" id="birthday-result-gif"><img alt="Reaktion"><div class="gif-caption" id="birthday-caption"></div></div>
+      <div class="btn-row hidden" id="birthday-next-row">
+        <button class="btn-primary" id="btn-bday-next">Weiter ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: SURPRISE -->
+  <div class="screen" id="screen-surprise">
+    <div class="card">
+      <h1 class="title">🎁 Die Überraschung 🖤</h1>
+      <p class="body-text">
+        Ich hab nämlich ein Geschenk für dich: ein Ticket zu einem Konzert in Köln 🎫✨<br>
+        <strong>WER</strong> spielt, verrate ich aber nicht 🤫
+      </p>
+      <p class="body-text" style="font-size:16px;">
+        Ich glaube, es ist richtig cool, wenn du die Band zum allerersten Mal live hörst, ganz ohne Erwartungen. Kein Riesenname, aber ich bin überzeugt, es gefällt dir.
+      </p>
+      <div class="btn-row">
+        <button class="btn-ghost" id="btn-genre-reveal">Willst du wenigstens das Genre wissen? 👀</button>
+      </div>
+      <div class="reveal-text hidden" id="genre-text">🖤 Genre: Black Metal 🖤</div>
+      <div class="gif-box"><img data-gif-tag="mysterious black cat" alt="mysteriöse Katze"></div>
+      <p class="body-text">Nimmst du die Überraschung an?</p>
+      <div class="btn-row" id="surprise-question">
+        <button class="btn-yes" id="btn-sur-yes">Ja, überrasch mich! 🖤🎫</button>
+        <button class="btn-no" id="btn-sur-no" data-variant="D">Nein</button>
+      </div>
+      <div class="gif-box hidden" id="surprise-result-gif"><img alt="Reaktion"><div class="gif-caption" id="surprise-caption"></div></div>
+      <div class="btn-row hidden" id="surprise-next-row">
+        <button class="btn-primary" id="btn-sur-next">Zur Auswertung! ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: SUMMARY -->
+  <div class="screen" id="screen-summary">
+    <div class="card">
+      <h1 class="title">📜 Deine Urkunde 📜</h1>
+      <div class="certificate">
+        <p style="text-align:center; font-weight:700;">Hiermit wird feierlich dokumentiert:</p>
+        <div class="result-row">
+          <span>🎸 Konzert (16.10., The Devil Wears Prada)</span>
+          <span class="stamp" id="stamp-concert1">–</span>
+        </div>
+        <div class="result-row">
+          <span>🎂 Geburtstagsabend freihalten</span>
+          <span class="stamp" id="stamp-birthday">–</span>
+        </div>
+        <div class="result-row">
+          <span>🎁 Überraschungs-Ticket</span>
+          <span class="stamp" id="stamp-surprise">–</span>
+        </div>
+      </div>
+      <div class="gif-box" id="summary-gif-box"><img alt="Finale Reaktion"><div class="gif-caption" id="summary-caption"></div></div>
+      <div class="btn-row">
+        <button class="btn-primary" id="btn-restart">Nochmal von vorne 🔄</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="badges">
+  <span>💾 SAVE</span><span>🐱 CATS</span><span>✨ Y2K</span><span>🔥 HOT</span><span>👁️ 1999 VIEWS</span>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ======================================================
+     PLATZHALTER — HIER NAMEN EINTRAGEN
+     ====================================================== */
+  document.getElementById('stayNamePlaceholder').textContent = "[NAME_HIER_EINTRAGEN]";
+
+  /* ======================================================
+     GIPHY (öffentlicher Giphy-Beta-Demo-Key, kein eigener nötig)
+     ====================================================== */
+  const GIPHY_KEY = "dc6zaTOxFJmzC";
+  const gifCache = {};
+
+  async function fetchGifUrls(tag) {
+    if (gifCache[tag]) return gifCache[tag];
+    try {
+      const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(tag)}&limit=12&rating=g&lang=en`);
+      const data = await res.json();
+      const urls = (data.data || [])
+        .map(g => g.images && g.images.fixed_height && g.images.fixed_height.url)
+        .filter(Boolean);
+      gifCache[tag] = urls.length ? urls : null;
+      return gifCache[tag];
+    } catch (e) {
+      gifCache[tag] = null;
+      return null;
+    }
+  }
+
+  async function setRandomGif(imgEl, tag) {
+    if (!imgEl) return;
+    const urls = await fetchGifUrls(tag);
+    if (urls && urls.length) {
+      imgEl.src = urls[Math.floor(Math.random() * urls.length)];
+      imgEl.style.display = "";
+    } else {
+      // Fallback, falls kein Netz / Giphy nicht erreichbar
+      imgEl.style.display = "none";
+    }
+  }
+
+  function loadGifsInScreen(screenEl) {
+    screenEl.querySelectorAll('img[data-gif-tag]').forEach(img => {
+      if (!img.dataset.loaded) {
+        img.dataset.loaded = "1";
+        setRandomGif(img, img.dataset.gifTag);
+      }
+    });
+  }
+
+  /* ======================================================
+     GLITZER-CURSOR
+     ====================================================== */
+  const sparkleChars = ["✨", "💖", "⭐", "🌟", "💫"];
+  let lastSparkle = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkle < 60) return;
+    lastSparkle = now;
+    const s = document.createElement('span');
+    s.className = 'sparkle';
+    s.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+    s.style.left = e.clientX + 'px';
+    s.style.top = e.clientY + 'px';
+    s.style.setProperty('--dx', (Math.random() * 40 - 20) + 'px');
+    s.style.setProperty('--dy', (-20 - Math.random() * 30) + 'px');
+    document.body.appendChild(s);
+    s.addEventListener('animationend', () => s.remove());
+  });
+
+  /* ======================================================
+     KONFETTI
+     ====================================================== */
+  const confettiCanvas = document.getElementById('confetti-canvas');
+  const ctx = confettiCanvas.getContext('2d');
+  function resizeCanvas() {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  let confettiParticles = [];
+  let confettiRAF = null;
+  const confettiColors = ['#ff0080', '#ffd93d', '#4ade80', '#7873f5', '#ff6ec4', '#22d3ee'];
+
+  function launchConfetti(count = 160) {
+    for (let i = 0; i < count; i++) {
+      confettiParticles.push({
+        x: Math.random() * confettiCanvas.width,
+        y: -20 - Math.random() * 200,
+        vx: (Math.random() - 0.5) * 6,
+        vy: 2 + Math.random() * 4,
+        size: 6 + Math.random() * 6,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        rot: Math.random() * 360,
+        vr: (Math.random() - 0.5) * 12,
+        life: 0,
+        maxLife: 150 + Math.random() * 60
+      });
+    }
+    if (!confettiRAF) confettiRAF = requestAnimationFrame(tickConfetti);
+  }
+
+  function tickConfetti() {
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettiParticles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.05;
+      p.rot += p.vr;
+      p.life++;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = Math.max(0, 1 - p.life / p.maxLife);
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+      ctx.restore();
+    });
+    confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < confettiCanvas.height + 40);
+    if (confettiParticles.length) {
+      confettiRAF = requestAnimationFrame(tickConfetti);
+    } else {
+      confettiRAF = null;
+    }
+  }
+
+  function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1600);
+  }
+
+  /* ======================================================
+     FLIEHENDER "NEIN"-BUTTON
+     ====================================================== */
+  const ESCAPE_LIMIT = 5;
+  const activeFleeControllers = [];
+
+  function cleanupFleeControllers() {
+    activeFleeControllers.forEach(c => c.destroy && c.destroy());
+    activeFleeControllers.length = 0;
+  }
+
+  function rectCenter(el) {
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height };
+  }
+
+  function distance(ax, ay, bx, by) {
+    return Math.hypot(ax - bx, ay - by);
+  }
+
+  function randomSafePos(w, h) {
+    const margin = 20;
+    const x = margin + Math.random() * (window.innerWidth - w - margin * 2);
+    const y = margin + 90 + Math.random() * (window.innerHeight - h - margin * 2 - 140);
+    return { x: Math.max(margin, x), y: Math.max(90, y) };
+  }
+
+  function makeFleeButton(btn, variant, opts) {
+    opts = opts || {};
+    let attempts = 0;
+    let wasNear = false;
+    let surrendered = false;
+    let destroyed = false;
+    let chaseCat = null;
+    let fakes = [];
+
+    const THRESHOLD = 110;
+    const THRESHOLD_RESET = 160;
+
+    function setFixedFromCurrent() {
+      const r = btn.getBoundingClientRect();
+      btn.classList.add('fleeing');
+      btn.style.left = r.left + 'px';
+      btn.style.top = r.top + 'px';
+      btn.style.margin = '0';
+    }
+
+    function moveTo(x, y) {
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+    }
+
+    function spawnChaseCat() {
+      if (chaseCat) return;
+      chaseCat = document.createElement('img');
+      chaseCat.className = 'chase-cat';
+      chaseCat.alt = 'jagende Katze';
+      setRandomGif(chaseCat, 'cat chasing playful');
+      document.body.appendChild(chaseCat);
+    }
+
+    function updateChaseCat(bx, by, bw, bh) {
+      if (!chaseCat) return;
+      chaseCat.style.left = (bx - bw * 0.55) + 'px';
+      chaseCat.style.top = (by - bh * 0.15) + 'px';
+    }
+
+    function spawnFakes(n) {
+      clearFakes();
+      for (let i = 0; i < n; i++) {
+        const f = document.createElement('button');
+        f.className = 'fake-no btn-no';
+        f.textContent = ['Nein', 'Njet', 'Nope', 'Neeein'][i % 4];
+        const r = btn.getBoundingClientRect();
+        const pos = randomSafePos(r.width, r.height);
+        f.style.left = pos.x + 'px';
+        f.style.top = pos.y + 'px';
+        f.addEventListener('click', () => {
+          toast('Reingefallen! 😜 Das war nur eine Kopie.');
+          f.remove();
+          fakes = fakes.filter(x => x !== f);
+        });
+        f.addEventListener('mouseenter', () => {
+          const bw = f.offsetWidth, bh = f.offsetHeight;
+          const p = randomSafePos(bw, bh);
+          f.style.left = p.x + 'px';
+          f.style.top = p.y + 'px';
+        });
+        document.body.appendChild(f);
+        fakes.push(f);
+      }
+    }
+
+    function clearFakes() {
+      fakes.forEach(f => f.remove());
+      fakes = [];
+    }
+
+    function surrender() {
+      surrendered = true;
+      btn.classList.add('surrendered');
+      btn.classList.remove('fleeing');
+      btn.style.left = '';
+      btn.style.top = '';
+      btn.style.margin = '';
+      btn.style.transform = '';
+      clearFakes();
+      if (chaseCat) { chaseCat.remove(); chaseCat = null; }
+      document.removeEventListener('mousemove', onMove);
+    }
+
+    function flee(mx, my) {
+      attempts++;
+      const r = btn.getBoundingClientRect();
+      const bw = r.width, bh = r.height;
+
+      if (variant === 'A') {
+        setFixedFromCurrent();
+        const pos = randomSafePos(bw, bh);
+        moveTo(pos.x, pos.y);
+      } else if (variant === 'B') {
+        setFixedFromCurrent();
+        const scale = Math.max(0.35, 1 - attempts * 0.13);
+        btn.style.transform = `scale(${scale})`;
+        // leichte Ausweichbewegung, damit man ihn nicht einfach "trifft"
+        const cx = rectCenter(btn);
+        const dx = cx.x - mx, dy = cx.y - my;
+        const norm = Math.hypot(dx, dy) || 1;
+        let nx = cx.x + (dx / norm) * 60 - bw / 2;
+        let ny = cx.y + (dy / norm) * 60 - bh / 2;
+        nx = Math.min(Math.max(20, nx), window.innerWidth - bw - 20);
+        ny = Math.min(Math.max(90, ny), window.innerHeight - bh - 20);
+        moveTo(nx, ny);
+      } else if (variant === 'C') {
+        setFixedFromCurrent();
+        spawnChaseCat();
+        const cx = rectCenter(btn);
+        const dx = cx.x - mx, dy = cx.y - my;
+        const norm = Math.hypot(dx, dy) || 1;
+        const perpX = -dy / norm, perpY = dx / norm;
+        const zig = (attempts % 2 === 0 ? 1 : -1) * 70;
+        let nx = cx.x + (dx / norm) * 90 + perpX * zig - bw / 2;
+        let ny = cx.y + (dy / norm) * 90 + perpY * zig - bh / 2;
+        nx = Math.min(Math.max(20, nx), window.innerWidth - bw - 20);
+        ny = Math.min(Math.max(90, ny), window.innerHeight - bh - 20);
+        moveTo(nx, ny);
+        setTimeout(() => updateChaseCat(nx, ny, bw, bh), 80);
+      } else if (variant === 'D') {
+        setFixedFromCurrent();
+        const pos = randomSafePos(bw, bh);
+        moveTo(pos.x, pos.y);
+        spawnFakes(2 + Math.floor(Math.random() * 2));
+      }
+
+      if (attempts >= ESCAPE_LIMIT) {
+        surrender();
+      }
+    }
+
+    function onMove(e) {
+      if (destroyed || surrendered) return;
+      const c = rectCenter(btn);
+      const d = distance(e.clientX, e.clientY, c.x, c.y);
+      if (d < THRESHOLD && !wasNear) {
+        wasNear = true;
+        flee(e.clientX, e.clientY);
+      } else if (d > THRESHOLD_RESET) {
+        wasNear = false;
+      }
+    }
+
+    document.addEventListener('mousemove', onMove);
+
+    return {
+      destroy() {
+        destroyed = true;
+        document.removeEventListener('mousemove', onMove);
+        clearFakes();
+        if (chaseCat) { chaseCat.remove(); chaseCat = null; }
+        btn.classList.remove('fleeing', 'surrendered');
+        btn.style.transform = '';
+        btn.style.left = '';
+        btn.style.top = '';
+        btn.style.margin = '';
+      }
+    };
+  }
+
+  function attachFlee(btn) {
+    const variant = btn.dataset.variant;
+    if (!variant) return;
+    const controller = makeFleeButton(btn, variant);
+    activeFleeControllers.push(controller);
+  }
+
+  /* ======================================================
+     WIZARD STATE & NAVIGATION
+     ====================================================== */
+  const state = {
+    concert1: null,   // true/false
+    birthday: null,   // true/false
+    surprise: null     // true/false/null(=not asked)
+  };
+
+  const baseOrder = ['screen-intro', 'screen-trip', 'screen-stay', 'screen-concert1', 'screen-birthday'];
+
+  function currentPath() {
+    if (state.birthday === true) {
+      return [...baseOrder, 'screen-surprise', 'screen-summary'];
+    }
+    return [...baseOrder, 'screen-summary'];
+  }
+
+  let currentIndex = 0;
+
+  function showScreen(id) {
+    cleanupFleeControllers();
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    el.classList.add('active');
+    el.querySelectorAll('button[data-variant]').forEach(attachFlee);
+    loadGifsInScreen(el);
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const path = currentPath();
+    const idx = path.indexOf(document.querySelector('.screen.active').id);
+    const pct = ((idx + 1) / path.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `Schritt ${idx + 1} von ${path.length}`;
+  }
+
+  function goNext() {
+    const path = currentPath();
+    const curId = document.querySelector('.screen.active').id;
+    const idx = path.indexOf(curId);
+    if (idx < path.length - 1) {
+      showScreen(path[idx + 1]);
+    }
+  }
+
+  /* ---------- Screen: Intro ---------- */
+  document.getElementById('btn-intro-yes').addEventListener('click', goNext);
+  document.getElementById('btn-intro-no').addEventListener('click', () => {
+    document.getElementById('intro-caught-text').classList.remove('hidden');
+    setTimeout(goNext, 1400);
+  });
+
+  /* ---------- Screen: Trip ---------- */
+  document.getElementById('btn-trip-why').addEventListener('click', () => {
+    document.getElementById('trip-why-text').classList.remove('hidden');
+    document.getElementById('trip-bonus-row').classList.remove('hidden');
+    document.getElementById('trip-next-row').classList.remove('hidden');
+    document.getElementById('btn-trip-why').disabled = true;
+  });
+  document.getElementById('btn-trip-bonus').addEventListener('click', () => {
+    document.getElementById('trip-bonus-text').classList.remove('hidden');
+    document.getElementById('btn-trip-bonus').disabled = true;
+  });
+  document.getElementById('btn-trip-next').addEventListener('click', goNext);
+
+  /* ---------- Screen: Stay ---------- */
+  document.getElementById('btn-stay-reveal').addEventListener('click', () => {
+    document.getElementById('stay-text').classList.remove('hidden');
+    document.getElementById('stay-next-row').classList.remove('hidden');
+    document.getElementById('btn-stay-reveal').disabled = true;
+  });
+  document.getElementById('btn-stay-next').addEventListener('click', goNext);
+
+  /* ---------- Screen: Concert 1 ---------- */
+  function answerConcert1(val) {
+    state.concert1 = val;
+    document.getElementById('concert1-question').classList.add('hidden');
+    const box = document.getElementById('concert1-result-gif');
+    const img = box.querySelector('img');
+    const cap = document.getElementById('concert1-caption');
+    box.classList.remove('hidden');
+    if (val) {
+      setRandomGif(img, 'cat headbang rock excited');
+      cap.textContent = 'JAAA! 🤘🎉';
+      launchConfetti(120);
+    } else {
+      setRandomGif(img, 'crying cat dramatic');
+      cap.textContent = 'Schade! 😢 (aber nicht schlimm)';
+    }
+    document.getElementById('concert1-next-row').classList.remove('hidden');
+  }
+  document.getElementById('btn-c1-yes').addEventListener('click', () => answerConcert1(true));
+  document.getElementById('btn-c1-no').addEventListener('click', () => answerConcert1(false));
+  document.getElementById('btn-c1-next').addEventListener('click', goNext);
+
+  /* ---------- Screen: Birthday gate ---------- */
+  function answerBirthday(val) {
+    state.birthday = val;
+    document.getElementById('birthday-question').classList.add('hidden');
+    const box = document.getElementById('birthday-result-gif');
+    const img = box.querySelector('img');
+    const cap = document.getElementById('birthday-caption');
+    box.classList.remove('hidden');
+    if (val) {
+      setRandomGif(img, 'cat birthday party happy');
+      cap.textContent = 'Freihalten aktiviert! 🎉📅';
+    } else {
+      setRandomGif(img, 'sad cat dramatic');
+      cap.textContent = 'Na gut... 😔';
+      state.surprise = null;
+    }
+    document.getElementById('birthday-next-row').classList.remove('hidden');
+  }
+  document.getElementById('btn-bday-yes').addEventListener('click', () => answerBirthday(true));
+  document.getElementById('btn-bday-no').addEventListener('click', () => answerBirthday(false));
+  document.getElementById('btn-bday-next').addEventListener('click', goNext);
+
+  /* ---------- Screen: Surprise ---------- */
+  document.getElementById('btn-genre-reveal').addEventListener('click', () => {
+    document.getElementById('genre-text').classList.remove('hidden');
+    document.getElementById('btn-genre-reveal').disabled = true;
+  });
+
+  function answerSurprise(val) {
+    state.surprise = val;
+    document.getElementById('surprise-question').classList.add('hidden');
+    const box = document.getElementById('surprise-result-gif');
+    const img = box.querySelector('img');
+    const cap = document.getElementById('surprise-caption');
+    box.classList.remove('hidden');
+    if (val) {
+      setRandomGif(img, 'excited cat sparkle happy');
+      cap.textContent = 'Mysteriöses Ticket gesichert! 🖤🎫';
+      launchConfetti(120);
+    } else {
+      setRandomGif(img, 'crying cat dramatic');
+      cap.textContent = 'Schaaade! 😭 (total okay)';
+    }
+    document.getElementById('surprise-next-row').classList.remove('hidden');
+  }
+  document.getElementById('btn-sur-yes').addEventListener('click', () => answerSurprise(true));
+  document.getElementById('btn-sur-no').addEventListener('click', () => answerSurprise(false));
+  document.getElementById('btn-sur-next').addEventListener('click', goNext);
+
+  /* ---------- Screen: Summary ---------- */
+  function stampEl(id, val) {
+    const el = document.getElementById(id);
+    if (val === null || val === undefined) {
+      el.textContent = '➖ ENTFÄLLT';
+      el.className = 'stamp na';
+    } else if (val) {
+      el.textContent = '✅ GENEHMIGT';
+      el.className = 'stamp yes';
+    } else {
+      el.textContent = '❌ ABGELEHNT';
+      el.className = 'stamp no';
+    }
+  }
+
+  function renderSummary() {
+    stampEl('stamp-concert1', state.concert1);
+    stampEl('stamp-birthday', state.birthday);
+    stampEl('stamp-surprise', state.birthday ? state.surprise : null);
+
+    const yesCount = [state.concert1, state.birthday, state.birthday ? state.surprise : null]
+      .filter(v => v === true).length;
+    const totalAsked = [state.concert1, state.birthday, state.birthday ? state.surprise : null]
+      .filter(v => v !== null).length;
+
+    const img = document.querySelector('#summary-gif-box img');
+    const cap = document.getElementById('summary-caption');
+
+    if (yesCount >= Math.ceil(totalAsked / 2) && yesCount > 0) {
+      setRandomGif(img, 'cat celebrating party dancing');
+      cap.textContent = 'Mission überwiegend erfolgreich! 🎉🐱';
+      launchConfetti(220);
+    } else {
+      setRandomGif(img, 'crying cat dramatic funny');
+      cap.textContent = 'Übertrieben dramatische Enttäuschung (nicht ernst gemeint) 😭💔';
+    }
+  }
+
+  document.getElementById('btn-sur-next').addEventListener('click', renderSummary);
+  document.getElementById('btn-bday-next').addEventListener('click', () => {
+    // Falls Geburtstag = Nein, geht's direkt zur Summary -> hier rendern
+    if (state.birthday === false) {
+      setTimeout(renderSummary, 50);
+    }
+  });
+
+  document.getElementById('btn-restart').addEventListener('click', () => {
+    state.concert1 = null;
+    state.birthday = null;
+    state.surprise = null;
+    document.getElementById('concert1-question').classList.remove('hidden');
+    document.getElementById('concert1-result-gif').classList.add('hidden');
+    document.getElementById('concert1-next-row').classList.add('hidden');
+    document.getElementById('birthday-question').classList.remove('hidden');
+    document.getElementById('birthday-result-gif').classList.add('hidden');
+    document.getElementById('birthday-next-row').classList.add('hidden');
+    document.getElementById('surprise-question').classList.remove('hidden');
+    document.getElementById('surprise-result-gif').classList.add('hidden');
+    document.getElementById('surprise-next-row').classList.add('hidden');
+    document.getElementById('genre-text').classList.add('hidden');
+    document.getElementById('btn-genre-reveal').disabled = false;
+    document.getElementById('intro-caught-text').classList.add('hidden');
+    document.getElementById('trip-why-text').classList.add('hidden');
+    document.getElementById('trip-bonus-text').classList.add('hidden');
+    document.getElementById('trip-bonus-row').classList.add('hidden');
+    document.getElementById('trip-next-row').classList.add('hidden');
+    document.getElementById('btn-trip-why').disabled = false;
+    document.getElementById('btn-trip-bonus').disabled = false;
+    document.getElementById('stay-text').classList.add('hidden');
+    document.getElementById('stay-next-row').classList.add('hidden');
+    document.getElementById('btn-stay-reveal').disabled = false;
+    showScreen('screen-intro');
+  });
+
+  /* ---------- Init ---------- */
+  showScreen('screen-intro');
+})();
+</script>
+</body>
+</html>
