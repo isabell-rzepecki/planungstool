@@ -635,7 +635,7 @@
         <button class="btn-no" id="btn-bday-invite-no" data-variant="D">Nein, keinen Bock.</button>
         <button class="btn-primary" id="btn-bday-reveal-next">ja villaisch... Aber: wer spielt denn überhaupt?</button>
       </div>
-      <div class="gif-box hidden" id="bday-decline-gif"><div class="gif-imgs" id="bday-decline-imgs"></div><div class="gif-caption" id="bday-decline-caption"></div></div>
+      <div class="gif-box hidden" id="bday-decline-gif"><div class="gif-imgs gif-imgs-big" id="bday-decline-imgs"></div><div class="gif-caption" id="bday-decline-caption"></div></div>
       <div class="btn-row hidden" id="bday-decline-next-row">
         <button class="btn-primary" id="btn-bday-decline-next">Weiter ➡️</button>
       </div>
@@ -755,6 +755,7 @@
     'sleeping': ['2cuI0vwb7w0wmDv7b0'],
     'headbang': ['rrasLFSTyi4Th1e8Xo', 'kGNldrILTzYKV5DvXX'],
     'crying': ['c4AFaiFaNSWCP0yFBD', 'aWnEiVFcvTgIz7MuxG'],
+    'crying-solo': ['aWnEiVFcvTgIz7MuxG'],
     'grumpy': ['KsMT02cXvy0AN7j4Md'],
     'smirk': ['QDRJ6IJzFSR1K'],
     'mysterious': ['5sgUUvcbSmY12'],
@@ -1373,11 +1374,13 @@
     const cap = document.getElementById('concert1-caption');
     box.classList.remove('hidden');
     if (val) {
+      imgs.classList.remove('gif-imgs-big');
       renderGifPool(imgs, 'headbang');
       cap.textContent = 'YIPPIEH! 🤘🎉';
       launchConfetti(120);
     } else {
-      renderGifPool(imgs, 'crying');
+      imgs.classList.add('gif-imgs-big');
+      renderGifPool(imgs, 'crying-solo');
       cap.textContent = 'Schade! 😢 (aber nicht schlimm)';
     }
     document.getElementById('concert1-next-row').classList.remove('hidden');
@@ -1401,7 +1404,7 @@
     const imgs = document.getElementById('bday-decline-imgs');
     const cap = document.getElementById('bday-decline-caption');
     box.classList.remove('hidden');
-    renderGifPool(imgs, 'crying');
+    renderGifPool(imgs, 'crying-solo');
     cap.textContent = 'Schaaade! 😭 (diesmal schon bissi schlimm)';
     document.getElementById('bday-decline-next-row').classList.remove('hidden');
   });
