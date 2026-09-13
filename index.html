@@ -687,7 +687,7 @@
       <div class="certificate">
         <p style="text-align:center; font-weight:700;">Hiermit wird feierlich dokumentiert:</p>
         <div class="result-row">
-          <span id="stay-summary-label">🏠 Übernachtung bei dir</span>
+          <span>🏠 Isabell übernachtet vor allem bei dir</span>
           <span class="stamp" id="stamp-stay">–</span>
         </div>
         <div class="result-row">
@@ -1507,14 +1507,6 @@
   }
 
   function renderSummary() {
-    const stayLabel = document.getElementById('stay-summary-label');
-    if (state.stayDecision === true) {
-      stayLabel.textContent = '🏠 Übernachtungsgast bei dir (arbeite tagsüber aber woanders)';
-    } else if (state.stayDecision === false) {
-      stayLabel.textContent = '🏠 Soll generell nicht bei dir übernachten';
-    } else {
-      stayLabel.textContent = '🏠 Übernachtung bei dir';
-    }
     stampEl('stamp-stay', state.stayDecision);
     stampEl('stamp-concert1', state.concert1);
     stampEl('stamp-surprise', state.surpriseAccepted);
