@@ -201,6 +201,14 @@
   .pop-anim {
     animation: popIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
   }
+  @keyframes flyInBlock {
+    0%   { opacity: 0; transform: translateX(-140px) rotate(-6deg) scale(0.9); }
+    60%  { opacity: 1; transform: translateX(12px) rotate(2deg) scale(1.02); }
+    100% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
+  }
+  .fly-in-block {
+    animation: flyInBlock 0.7s cubic-bezier(.22,.68,.36,1.15) both;
+  }
   button {
     font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
     font-weight: 700;
@@ -476,6 +484,7 @@
 </div>
 
 <canvas id="confetti-canvas"></canvas>
+<audio id="metal-audio" src="metal.mp3" loop preload="none"></audio>
 
 <img class="floaty-gif floaty-1" id="floaty-gif-1" alt="">
 <img class="floaty-gif floaty-2" id="floaty-gif-2" alt="">
@@ -600,13 +609,12 @@
   <div class="screen" id="screen-concert1">
     <div class="card">
       <h1 class="title">🤘 GUT, DASS DU FRAGST 🎸</h1>
-      <p class="body-text">Ein Konzert natürlich!</p>
-      <p class="body-text hidden" id="concert1-details-block" data-no-type="true">
+      <p class="body-text hidden" id="concert1-details-block" data-fly-in="true">
         Freitag, 16.10.<br>
         <strong>The Devil Wears Prada</strong><br>
         Support: <strong>156/Silence</strong> &amp; <strong>Oversize</strong>
       </p>
-      <p class="body-text">Ich hab vor ein paar Wochen <strong>2 Tickets</strong> gekauft 🎫🎫</p>
+      <p class="body-text">Ich hab vor ein paar Wochen <strong>2 Tickets</strong> gekauft 🎫🎫 und aktuell noch keine Begleitung.</p>
       <p class="body-text">Willst du mitkommen?</p>
       <div class="btn-row hidden" id="concert1-question" data-reveal-after-type="screen">
         <button class="btn-yes" id="btn-c1-yes">Ja, klar! 🤘😍</button>
@@ -1210,6 +1218,17 @@
         el.classList.remove('hidden');
         continue;
       }
+      if (el.dataset.flyIn === 'true') {
+        el.classList.remove('hidden');
+        if (el.dataset.typed === '1') {
+          el.classList.add('fly-in-block');
+          continue;
+        }
+        el.dataset.typed = '1';
+        el.classList.add('fly-in-block');
+        await new Promise(resolve => setTimeout(resolve, 1800));
+        continue;
+      }
       await typeNode(el, speed);
     }
   }
@@ -1255,6 +1274,15 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById(id);
     el.classList.add('active');
+    const metalAudio = document.getElementById('metal-audio');
+    if (id === 'screen-concert1') {
+      metalAudio.currentTime = 0;
+      metalAudio.volume = 0.5;
+      metalAudio.play().catch(() => {});
+    } else {
+      metalAudio.pause();
+      metalAudio.currentTime = 0;
+    }
     loadGifsInScreen(el);
     typeScreenTexts(el).then(() => {
       el.querySelectorAll('[data-reveal-after-type="screen"]').forEach(revealButtons);
