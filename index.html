@@ -731,7 +731,6 @@
 
   function unlockApp() {
     document.getElementById('lock-screen').classList.add('hidden');
-    initFloatyGifs();
     showScreen('screen-intro');
   }
 
@@ -835,16 +834,20 @@
   /* ======================================================
      FLOATING DEKO-GIFS — außerhalb der Karte, rein dekorativ
      ====================================================== */
-  function initFloatyGifs() {
+  const ALL_GIF_IDS = Array.from(new Set(Object.values(GIF_POOLS).flat()));
+
+  function updateFloatyGifs() {
     const floaty1 = document.getElementById('floaty-gif-1');
     const floaty2 = document.getElementById('floaty-gif-2');
-    if (floaty1) {
-      floaty1.src = giphyUrl(GIF_POOLS.mysterious[0]);
-      if (window.innerWidth > 950) floaty1.style.display = 'block';
-    }
-    if (floaty2) {
-      floaty2.src = giphyUrl(GIF_POOLS.celebrating[0]);
-      if (window.innerWidth > 950) floaty2.style.display = 'block';
+    if (!floaty1 || !floaty2 || ALL_GIF_IDS.length < 2) return;
+    const pool = ALL_GIF_IDS.slice();
+    const id1 = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+    const id2 = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+    floaty1.src = giphyUrl(id1);
+    floaty2.src = giphyUrl(id2);
+    if (window.innerWidth > 950) {
+      floaty1.style.display = 'block';
+      floaty2.style.display = 'block';
     }
   }
 
@@ -1294,6 +1297,7 @@
         audio.currentTime = 0;
       }
     });
+    updateFloatyGifs();
     loadGifsInScreen(el);
     typeScreenTexts(el).then(() => {
       el.querySelectorAll('[data-reveal-after-type="screen"]').forEach(revealButtons);
