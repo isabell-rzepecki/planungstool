@@ -424,64 +424,9 @@
     border-radius: 6px;
   }
 
-  /* ============ LOCK SCREEN ============ */
-  #lock-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 20000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(-45deg, #ff6ec4, #7873f5, #4ade80, #ffd93d, #ff6ec4);
-    background-size: 400% 400%;
-    animation: gradientShift 12s ease infinite;
-    padding: 20px;
-  }
-  #lock-screen.hidden { display: none !important; }
-  .lock-card {
-    background: #fff7fb;
-    border: 4px solid #1a0033;
-    border-radius: 24px;
-    padding: 32px 28px;
-    box-shadow: 8px 8px 0 #1a0033;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
-  }
-  .lock-card input {
-    font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    padding: 12px 16px;
-    border-radius: 40px;
-    border: 3px solid #1a0033;
-    width: 100%;
-    text-align: center;
-    margin-top: 16px;
-    box-sizing: border-box;
-  }
-  .lock-error {
-    color: #dc2626;
-    font-weight: 700;
-    margin-top: 10px;
-    font-size: 14px;
-    min-height: 18px;
-  }
 </style>
 </head>
 <body>
-
-<div id="lock-screen">
-  <div class="lock-card">
-    <h1 class="title" style="font-size:22px;">🔒 Geheim! 🔒</h1>
-    <p class="body-text" style="font-size:16px;">Diese Seite ist nur für dich. Kennwort eingeben:</p>
-    <input type="password" id="lock-input" placeholder="Passwort" autocomplete="off">
-    <div class="lock-error" id="lock-error"></div>
-    <div class="btn-row" style="margin-top:12px;">
-      <button class="btn-primary" id="lock-submit">Freischalten 🔓</button>
-    </div>
-  </div>
-</div>
 
 <canvas id="confetti-canvas"></canvas>
 <audio id="metal-audio" src="freesound_community-metalriff1-105493.mp3" loop preload="none"></audio>
@@ -722,44 +667,7 @@
   "use strict";
 
   /* ======================================================
-     PASSWORT-SPERRE — hier einfach das Passwort ändern
-     (kein echter Schutz vor technisch versierten Leuten, aber hält
-     zufällige Besucher:innen, Follower und Suchmaschinen fern)
      ====================================================== */
-  const SITE_PASSWORD = "IfYourNameStartsWithDthisISFORB!DDEN";
-  const UNLOCK_KEY = "geheimerPlanUnlocked";
-
-  function unlockApp() {
-    document.getElementById('lock-screen').classList.add('hidden');
-    showScreen('screen-intro');
-  }
-
-  function initLockScreen() {
-    try {
-      if (localStorage.getItem(UNLOCK_KEY) === '1') {
-        unlockApp();
-        return;
-      }
-    } catch (e) { /* localStorage evtl. nicht verfügbar */ }
-
-    const input = document.getElementById('lock-input');
-    const error = document.getElementById('lock-error');
-    function tryUnlock() {
-      if (input.value === SITE_PASSWORD) {
-        try { localStorage.setItem(UNLOCK_KEY, '1'); } catch (e) {}
-        unlockApp();
-      } else {
-        error.textContent = 'Falsch... versuch\'s nochmal 🙈';
-        input.value = '';
-        input.focus();
-      }
-    }
-    document.getElementById('lock-submit').addEventListener('click', tryUnlock);
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') tryUnlock();
-    });
-    input.focus();
-  }
 
   /* ======================================================
      GIFS — fest hinterlegte Giphy-IDs (statt Live-Suche: robuster,
@@ -1587,7 +1495,7 @@
   });
 
   /* ---------- Init ---------- */
-  initLockScreen();
+  showScreen('screen-intro');
 })();
 </script>
 </body>
