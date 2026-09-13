@@ -207,7 +207,7 @@
     100% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
   }
   .fly-in-block {
-    animation: flyInBlock 0.7s cubic-bezier(.22,.68,.36,1.15) both;
+    animation: flyInBlock 1.6s cubic-bezier(.22,.68,.36,1.15) both;
   }
   button {
     font-family: 'Baloo 2', 'Trebuchet MS', sans-serif;
@@ -614,8 +614,8 @@
         <strong>The Devil Wears Prada</strong><br>
         Support: <strong>156/Silence</strong> &amp; <strong>Oversize</strong>
       </p>
-      <p class="body-text">Ich hab vor ein paar Wochen <strong>2 Tickets</strong> gekauft 🎫🎫 und aktuell noch keine Begleitung.</p>
-      <p class="body-text">Willst du mitkommen?</p>
+      <p class="body-text hidden">Ich hab vor ein paar Wochen <strong>2 Tickets</strong> gekauft 🎫🎫 und aktuell noch keine Begleitung.</p>
+      <p class="body-text hidden">Willst du mitkommen?</p>
       <div class="btn-row hidden" id="concert1-question" data-reveal-after-type="screen">
         <button class="btn-yes" id="btn-c1-yes">Ja, klar! 🤘😍</button>
         <button class="btn-no" id="btn-c1-no" data-variant="B">Nein</button>
@@ -1165,6 +1165,7 @@
      ====================================================== */
   function typeNode(el, speed) {
     speed = speed || 24;
+    el.classList.remove('hidden');
     if (el.dataset.typed === '1') return Promise.resolve();
     el.dataset.typed = '1';
     return new Promise((resolve) => {
@@ -1226,7 +1227,7 @@
         }
         el.dataset.typed = '1';
         el.classList.add('fly-in-block');
-        await new Promise(resolve => setTimeout(resolve, 1800));
+        await new Promise(resolve => setTimeout(resolve, 2800));
         continue;
       }
       await typeNode(el, speed);
