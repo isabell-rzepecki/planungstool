@@ -687,6 +687,10 @@
       <div class="certificate">
         <p style="text-align:center; font-weight:700;">Hiermit wird feierlich dokumentiert:</p>
         <div class="result-row">
+          <span id="stay-summary-label">🏠 Übernachtung bei dir</span>
+          <span class="stamp" id="stamp-stay">–</span>
+        </div>
+        <div class="result-row">
           <span>🎸 Konzert (16.10., The Devil Wears Prada)</span>
           <span class="stamp" id="stamp-concert1">–</span>
         </div>
@@ -1259,7 +1263,8 @@
   const state = {
     concert1: null,         // true/false
     surpriseAccepted: null, // true/false
-    genreRevealed: null     // true/false
+    genreRevealed: null,    // true/false
+    stayDecision: null      // true = Übernachtungsgast, false = nicht bei ihm
   };
 
   const baseOrder = ['screen-intro', 'screen-trip', 'screen-trip-network', 'screen-trip-details', 'screen-stay', 'screen-concert1', 'screen-birthday', 'screen-bday-reveal'];
@@ -1408,8 +1413,12 @@
       revealButtons(document.getElementById('stay-next-row'));
     });
   });
-  document.getElementById('btn-stay-next').addEventListener('click', goNext);
+  document.getElementById('btn-stay-next').addEventListener('click', () => {
+    state.stayDecision = true;
+    goNext();
+  });
   document.getElementById('btn-stay-no').addEventListener('click', () => {
+    state.stayDecision = false;
     revealTyped(document.getElementById('stay-no-caught-text')).then(() => {
       document.getElementById('stay-no-gif').classList.remove('hidden');
       revealButtons(document.getElementById('stay-no-next-row'));
@@ -1498,6 +1507,15 @@
   }
 
   function renderSummary() {
+    const stayLabel = document.getElementById('stay-summary-label');
+    if (state.stayDecision === true) {
+      stayLabel.textContent = '🏠 Übernachtungsgast bei dir (arbeite tagsüber aber woanders)';
+    } else if (state.stayDecision === false) {
+      stayLabel.textContent = '🏠 Soll generell nicht bei dir übernachten';
+    } else {
+      stayLabel.textContent = '🏠 Übernachtung bei dir';
+    }
+    stampEl('stamp-stay', state.stayDecision);
     stampEl('stamp-concert1', state.concert1);
     stampEl('stamp-surprise', state.surpriseAccepted);
 
@@ -1532,6 +1550,7 @@
     state.concert1 = null;
     state.surpriseAccepted = null;
     state.genreRevealed = null;
+    state.stayDecision = null;
     document.getElementById('concert1-result-gif').classList.add('hidden');
     document.getElementById('concert1-next-row').classList.add('hidden');
     document.getElementById('concert1-details-block').classList.add('hidden');
