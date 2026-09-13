@@ -485,6 +485,7 @@
 
 <canvas id="confetti-canvas"></canvas>
 <audio id="metal-audio" src="freesound_community-metalriff1-105493.mp3" loop preload="none"></audio>
+<audio id="birthday-audio" src="shidenbeatsmusic-happy-birthday-to-you-bossa-nova-style-arrangement-21399.mp3" loop preload="none"></audio>
 
 <img class="floaty-gif floaty-1" id="floaty-gif-1" alt="">
 <img class="floaty-gif floaty-2" id="floaty-gif-2" alt="">
@@ -634,7 +635,7 @@
       <div class="gif-box"><div class="gif-imgs gif-imgs-big" data-gif-pool="birthday"></div></div>
       <div class="btn-row hidden" style="align-items:center;" data-reveal-after-type="screen">
         <img class="inline-gif" data-gif-tag="grumpy" alt="Grumpy Cat">
-        <button class="btn-ghost" id="btn-bday-grumpy">Don't remind me... Ich hasse diesen Tag. Und: Was hat das jetzt mit einem Event in Köln zu tun?</button>
+        <button class="btn-ghost" id="btn-bday-grumpy">Don't remind me... Ich hasse diesen Tag. Und das ist kein köllsches Event?!</button>
       </div>
     </div>
   </div>
@@ -1275,15 +1276,19 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById(id);
     el.classList.add('active');
-    const metalAudio = document.getElementById('metal-audio');
-    if (id === 'screen-concert1') {
-      metalAudio.currentTime = 0;
-      metalAudio.volume = 0.5;
-      metalAudio.play().catch(() => {});
-    } else {
-      metalAudio.pause();
-      metalAudio.currentTime = 0;
-    }
+    const screenAudioMap = { 'screen-concert1': 'metal-audio', 'screen-birthday': 'birthday-audio' };
+    const activeAudioId = screenAudioMap[id];
+    ['metal-audio', 'birthday-audio'].forEach(audioId => {
+      const audio = document.getElementById(audioId);
+      if (audioId === activeAudioId) {
+        audio.currentTime = 0;
+        audio.volume = 0.5;
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
     loadGifsInScreen(el);
     typeScreenTexts(el).then(() => {
       el.querySelectorAll('[data-reveal-after-type="screen"]').forEach(revealButtons);
