@@ -587,8 +587,9 @@
         <button class="btn-no" id="btn-stay-no" data-variant="C">Nein, bitte nicht bei mir übernachten.</button>
       </div>
       <div class="reveal-text hidden" id="stay-no-caught-text">
-        Zu spät, ist schon gebucht. 😌
+        Ok... 😔
       </div>
+      <div class="gif-box hidden" id="stay-no-gif"><div class="gif-imgs gif-imgs-big" data-gif-pool="crying-solo"></div></div>
     </div>
   </div>
 
@@ -1372,7 +1373,8 @@
   document.getElementById('btn-stay-next').addEventListener('click', goNext);
   document.getElementById('btn-stay-no').addEventListener('click', () => {
     revealTyped(document.getElementById('stay-no-caught-text')).then(() => {
-      setTimeout(goNext, 900);
+      document.getElementById('stay-no-gif').classList.remove('hidden');
+      setTimeout(goNext, 1600);
     });
   });
 
@@ -1513,6 +1515,7 @@
     document.getElementById('stay-text').classList.add('hidden');
     document.getElementById('stay-next-row').classList.add('hidden');
     document.getElementById('stay-no-caught-text').classList.add('hidden');
+    document.getElementById('stay-no-gif').classList.add('hidden');
     document.getElementById('btn-stay-reveal').disabled = false;
     document.querySelectorAll('[data-typed]').forEach(el => delete el.dataset.typed);
     document.querySelectorAll('[data-reveal-after-type="screen"]').forEach(el => el.classList.add('hidden'));
