@@ -579,10 +579,15 @@
         <button class="btn-info" id="btn-stay-reveal">Ich ahne schlimmes... wo denkst du zu nächtigen? 😶</button>
       </div>
       <div class="reveal-text hidden" id="stay-text">
-        Keine Angst. Ich kann wahrscheinlich bei <strong>Steffi</strong> unterkommen. Und werde vor allem bei ihr tagsüber auch arbeiten. Aber natürlich würde ich auch gerne die ein oder andere Nacht bei dir verbringen wollen…
+        Um ehrlich zu sein, am liebsten bei dir 😶‍🌫️ – aber vielleicht besser nicht die ganze Zeit? Ich habe auf jeden Fall schon die Option, ein paar Nächte bei <strong>Steffi</strong> zu übernachten.<br><br>
+        Wo ich dann tagsüber arbeiten werde, ist aktuell noch unklar – auf jeden Fall aber nicht bei dir zuhause, keine Angst.
       </div>
       <div class="btn-row hidden" id="stay-next-row">
         <button class="btn-primary" id="btn-stay-next">Klingt gut. Und was sind das für dubiose Events in Kölle?</button>
+        <button class="btn-no" id="btn-stay-no" data-variant="C">Nein, bitte nicht bei mir übernachten.</button>
+      </div>
+      <div class="reveal-text hidden" id="stay-no-caught-text">
+        Zu spät, ist schon gebucht. 😌
       </div>
     </div>
   </div>
@@ -1365,6 +1370,11 @@
     });
   });
   document.getElementById('btn-stay-next').addEventListener('click', goNext);
+  document.getElementById('btn-stay-no').addEventListener('click', () => {
+    revealTyped(document.getElementById('stay-no-caught-text')).then(() => {
+      setTimeout(goNext, 900);
+    });
+  });
 
   /* ---------- Screen: Concert 1 ---------- */
   function answerConcert1(val) {
@@ -1502,6 +1512,7 @@
     document.getElementById('btn-trip-details-more').disabled = false;
     document.getElementById('stay-text').classList.add('hidden');
     document.getElementById('stay-next-row').classList.add('hidden');
+    document.getElementById('stay-no-caught-text').classList.add('hidden');
     document.getElementById('btn-stay-reveal').disabled = false;
     document.querySelectorAll('[data-typed]').forEach(el => delete el.dataset.typed);
     document.querySelectorAll('[data-reveal-after-type="screen"]').forEach(el => el.classList.add('hidden'));
