@@ -1441,19 +1441,24 @@
       note.textContent = '';
     }
 
-    const yesCount = [state.concert1, state.surpriseAccepted].filter(v => v === true).length;
-    const totalAsked = [state.concert1, state.surpriseAccepted].filter(v => v !== null).length;
+    const decisions = [state.stayDecision, state.concert1, state.surpriseAccepted];
+    const yesCount = decisions.filter(v => v === true).length;
+    const totalAsked = decisions.filter(v => v !== null).length;
 
     const imgs = document.getElementById('summary-imgs');
     const cap = document.getElementById('summary-caption');
 
-    if (yesCount >= Math.ceil(totalAsked / 2)) {
+    if (totalAsked > 0 && yesCount === totalAsked) {
+      renderGifPool(imgs, 'celebrating');
+      cap.textContent = 'Mission vollständig erfolgreich! 🎉🐱';
+      launchConfetti(220);
+    } else if (yesCount === 0) {
+      renderGifPool(imgs, 'crying');
+      cap.textContent = 'Mission gescheitert. The world is mourning 😭💔';
+    } else {
       renderGifPool(imgs, 'celebrating');
       cap.textContent = 'Mission überwiegend erfolgreich! 🎉🐱';
       launchConfetti(220);
-    } else {
-      renderGifPool(imgs, 'crying');
-      cap.textContent = 'Mission gescheitert. The world is mourning 😭💔';
     }
   }
 
